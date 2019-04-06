@@ -11,35 +11,35 @@ Shape::Shape() {
 	border = rgb(1,1,1);
 }
 
-int Shape::get_x() const {
+int Shape::getX() const {
 	return x;	
 }
 
-int Shape::get_y() const {
+int Shape::getY() const {
 	return y;
 }
 
-rgb Shape::get_fill() const {
+rgb Shape::getFill() const {
 	return fill;
 }
 
-rgb Shape::get_border() const {
+rgb Shape::getBorder() const {
 	return border;
 }
 
-void Shape::set_x(const int &x) {
+void Shape::setX(const int &x) {
 	this->x = x;
 }
 
-void Shape::set_y(const int &y) {
+void Shape::setY(const int &y) {
 	this->y = y;
 }
 
-void Shape::set_fill(const rgb &fill) {
+void Shape::setFill(const rgb &fill) {
 	this->fill = fill;
 }
 
-void Shape::set_border(const rgb &border) {
+void Shape::setBorder(const rgb &border) {
 	this->border = border;
 }
 
