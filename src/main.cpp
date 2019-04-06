@@ -6,11 +6,14 @@
 #include "shapes.h"
 #include "rect.h"
 #include "circle.h"
+#include "pong.h"
 
 using namespace std;
 
 GLdouble width, height;
 int wd;
+
+Pong pong;
 
 // 0 for start screen, 1 for game, 2 for end
 int programState;
@@ -23,7 +26,7 @@ void init() {
 /* Initialize OpenGL Graphics */
 void initGL() {
 	// Set "clearing" or background color
-	glClearColor(1.0f, 1.0f, 0.0f, 1.0f); // Black and opaque
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
 }
 
 /* Handler for window-repaint event. Call back when the window first appears and
@@ -71,30 +74,32 @@ void display() {
 
 	switch(programState) {
 	case 0: {
-		glColor3f(1.0, 0.0, 1.0);
-		glBegin(GL_QUADS);
+		// glColor3f(1.0, 0.0, 1.0);
+		// glBegin(GL_QUADS);
 
-		glColor3f(0.7, 0.0, 1.0);
-		glVertex2i(10 + 50 + 200, 80 + 50);
+		// glColor3f(0.7, 0.0, 1.0);
+		// glVertex2i(10 + 50 + 200, 80 + 50);
 
-		glColor3f(0.0, 0.0, 1.0);
-		glVertex2i(10 + 50, 90 + 100);
+		// glColor3f(0.0, 0.0, 1.0);
+		// glVertex2i(10 + 50, 90 + 100);
 
 	
 
-		glColor3f(0.0, 1.0, 0.0);
-		glVertex2i(20 + 100 + 200, 80 + 50);
+		// glColor3f(0.0, 1.0, 0.0);
+		// glVertex2i(20 + 100 + 200, 80 + 50);
 
-		glColor3f(1.0, 0.0, 0.0);
-		glVertex2i(20 + 100, 90 + 100);
+		// glColor3f(1.0, 0.0, 0.0);
+		// glVertex2i(20 + 100, 90 + 100);
 	
-		glEnd();
-		// Circle Test
-		glColor3f(1.0, 0.0, 0.3);
-		Circle circle(15.0);
-		circle.setX(300);
-		circle.setY(200);
-		circle.draw();
+		// glEnd();
+		// // Circle Test
+		// glColor3f(1.0, 0.0, 0.3);
+		// Circle circle(15.0);
+		// circle.setX(300);
+		// circle.setY(200);
+		// circle.draw();
+
+		pong.drawGame();
 
 		break;
 	}

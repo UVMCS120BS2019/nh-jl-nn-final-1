@@ -11,20 +11,22 @@
 
 class Circle : public Shape {
 
-    private:
-        double radius;
-    public:
-        Circle();
-        Circle(double radius);
+private:
+	int radius;
+	
+public:
+	Circle();
+	Circle(int radius);
+	Circle(int x, int y, int radius);
 
-        int getRadius() const;
+	int getRadius() const;
 
-        // must be >= 0
-        void setRadius(int radius);
+	// must be >= 0
+	void setRadius(int radius);
 
-        virtual void draw() const override;
-        // for overriding << operator
-        std::ostream& doprint(std::ostream& out) const override;
+	virtual void draw() const override;
+	// for overriding << operator
+	std::ostream& doprint(std::ostream& out) const override;
 };
 
 
