@@ -5,6 +5,7 @@
 #include "circle.h"
 #include "graphics.h"
 
+
 class Pong {
 private:
 	const static int paddleXOffset = 20;
@@ -35,8 +36,6 @@ public:
 
 	void timestep();
 
-	
-	
 };
 
 
