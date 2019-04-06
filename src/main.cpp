@@ -79,6 +79,8 @@ void display() {
 		// Circle Test
 		glColor3f(1.0, 0.0, 0.3);
 		Circle circle(15.0);
+		circle.setX(300);
+		circle.setY(200);
 		circle.draw();
 
 		break;
