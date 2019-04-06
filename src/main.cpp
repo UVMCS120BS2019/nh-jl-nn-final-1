@@ -6,6 +6,7 @@
 #include "shapes.h"
 #include "rect.h"
 #include "circle.h"
+#include "pong.h"
 
 using namespace std;
 
@@ -55,6 +56,8 @@ void display() {
 	rect.setX(30);
 	rect.setY(30);
 	rect.draw();
+
+	Pong pong;
 
 	switch(programState) {
 	case 0: {
