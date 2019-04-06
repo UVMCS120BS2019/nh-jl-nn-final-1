@@ -7,8 +7,10 @@
 
 Rect::Rect() : Shape(), width(0), height(0) {}
 
-Rect::Rect(double width, double height) : Shape() {
-    this->width = width;
+Rect::Rect(int x, int y, double width, double height) : Shape() {
+	this->x = x;
+	this->y = y;
+	this->width = width;
     this->height = height;
 }
 

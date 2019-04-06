@@ -6,6 +6,9 @@
 #include "shapes.h"
 #include "rect.h"
 #include "circle.h"
+#include "pong.h"
+
+
 
 using namespace std;
 
@@ -16,8 +19,8 @@ int wd;
 int programState;
 
 void init() {
-	width = 900;
-	height = 500;
+	width = Pong::width;
+	height = Pong::height;
 }
 
 /* Initialize OpenGL Graphics */
@@ -45,6 +48,18 @@ void display() {
     /*
      * Draw here
      */
+
+
+	// text rendering
+	glRasterPos2i(100, 120);
+	glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , 'a' );
+
+	glRasterPos2i(110, 120);
+	glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , 'b' );
+
+	
+	
+	
 	int x = 500;
 	int y = 200;
 
@@ -56,6 +71,7 @@ void display() {
 	rect.setY(30);
 	rect.draw();
 
+	
 	switch(programState) {
 	case 0: {
 		glColor3f(1.0, 0.0, 1.0);
@@ -128,6 +144,8 @@ void display() {
 		break;
 	}
 	}
+
+	
 	glFlush();  // Render now
 }
 
