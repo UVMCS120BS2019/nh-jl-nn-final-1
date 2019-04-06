@@ -25,8 +25,7 @@ void Circle::setRadius(int radius) {
 void Circle::draw() const {
     int i;
     int triangleAmount = 20; //# of triangles used to draw circle
-
-    //GLfloat radius = 0.8f; //radius
+    
     GLfloat twicePi = 2.0f * M_PI;
 
     glBegin(GL_TRIANGLE_FAN);
