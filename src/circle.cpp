@@ -12,27 +12,32 @@ Circle::Circle(double radius) : Shape() {
     this->radius = radius;
 }
 
-int Circle::get_radius() const {
+int Circle::getRadius() const {
     return radius;
 }
 
-void Circle::set_radius(int radius) {
+void Circle::setRadius(int radius) {
     if (radius >= 0) {
         this->radius = radius;
     }
 }
 
-double Circle::get_area() const {
-    return M_PI * pow(radius, 2);
-}
-
-double Circle::get_perimeter() const {
-    return 2 * M_PI * radius;
-}
-
 void Circle::draw() const {
-    //TODO:
+    int i;
+    int triangleAmount = 20; //# of triangles used to draw circle
 
+    GLfloat radius = 0.8f; //radius
+    GLfloat twicePi = 2.0f * M_PI;
+
+    glBegin(GL_TRIANGLE_FAN);
+    glVertex2f(x, y); // center of circle
+    for(i = 0; i <= triangleAmount; i++) {
+        glVertex2f(
+                x + (radius * cos(i *  twicePi / triangleAmount)),
+                y + (radius * sin(i * twicePi / triangleAmount))
+        );
+    }
+    glEnd();
 }
 
 std::ostream& Circle::doprint(std::ostream& out) const {
