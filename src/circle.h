@@ -7,6 +7,7 @@
 
 #include "shapes.h"
 #include <iostream>
+#include "graphics.h"
 
 class Circle : public Shape {
 
@@ -16,13 +17,11 @@ class Circle : public Shape {
         Circle();
         Circle(double radius);
 
-        int get_radius() const;
+        int getRadius() const;
 
         // must be >= 0
-        void set_radius(int radius);
+        void setRadius(int radius);
 
-        virtual double get_area() const override;
-        virtual double get_perimeter() const override;
         virtual void draw() const override;
         // for overriding << operator
         std::ostream& doprint(std::ostream& out) const override;
