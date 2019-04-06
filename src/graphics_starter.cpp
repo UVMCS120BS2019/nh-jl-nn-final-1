@@ -3,6 +3,10 @@
 #include <vector>
 #include <stdlib.h>
 #include <math.h>
+#include "shapes.h"
+#include "rect.h"
+#include "circle.h"
+
 using namespace std;
 
 GLdouble width, height;
