@@ -50,7 +50,7 @@ void display() {
 
 
 	switch(programState) {
-	case 0:
+	case 0: {
 		glColor3f(1.0, 0.0, 1.0);
 		glBegin(GL_QUADS);
 
@@ -70,8 +70,9 @@ void display() {
 	
 		glEnd();
 		break;
-
-	case 1:
+	}
+		
+	case 1: {
 	
 		glColor3f(0.0, 0.0, 1.0);
 		glBegin(GL_TRIANGLES);
@@ -96,8 +97,9 @@ void display() {
 		glVertex2i(x + 150, y + 200);
 		glEnd();
 		break;
+	}
 		
-	case 2:
+	case 2: {
 		x = 700;
 		y = 10;
 
@@ -110,6 +112,7 @@ void display() {
 		glVertex2i(x + 150, y + 200);
 		glEnd();
 		break;
+	}
 	}
 	glFlush();  // Render now
 }
