@@ -32,18 +32,16 @@ protected:
 
 public:
 	Shape();
-	int get_x() const;
-	int get_y() const;
-	rgb get_fill() const;
-	rgb get_border() const;
+	int getX() const;
+	int getY() const;
+	rgb getFill() const;
+	rgb getBorder() const;
 
-	void set_x(const int& x);
-	void set_y(const int& y);
-	void set_fill(const rgb &fill);
-	void set_border(const rgb &border);
+	void setX(const int& x);
+	void setY(const int& y);
+	void setFill(const rgb &fill);
+	void setBorder(const rgb &border);
 
-	virtual double get_area() const = 0;
-	virtual double get_perimeter() const = 0;
 	virtual void draw() const = 0;
 
 	// calls doprint method of derived classes

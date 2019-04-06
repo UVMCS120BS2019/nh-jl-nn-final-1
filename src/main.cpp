@@ -5,7 +5,7 @@
 #include <math.h>
 #include "shapes.h"
 #include "rect.h"
-//#include "circle.h"
+#include "circle.h"
 
 using namespace std;
 
@@ -69,6 +69,11 @@ void display() {
 		glVertex2i(20 + 100, 90 + 100);
 	
 		glEnd();
+		// Circle Test
+		glColor3f(1.0, 0.0, 0.3);
+		Circle circle(15.0);
+		circle.draw();
+
 		break;
 	}
 		
