@@ -48,6 +48,13 @@ void display() {
 	int x = 500;
 	int y = 200;
 
+	Rect rect;
+
+	rect.setWidth(10);
+	rect.setLength(20);
+	rect.setX(30);
+	rect.setY(30);
+	rect.draw();
 
 	switch(programState) {
 	case 0: {
