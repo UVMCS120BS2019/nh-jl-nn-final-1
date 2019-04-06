@@ -48,6 +48,7 @@ void display() {
 	int x = 500;
 	int y = 200;
 
+	Rect rect;
 
 	switch(programState) {
 	case 0:
