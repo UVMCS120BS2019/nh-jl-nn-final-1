@@ -1,6 +1,16 @@
 #include "pong.h"
 #include "shapes.h"
 
+Pong::Pong() {
+	int centerY = height / 2;
+
+	int userPaddleX = paddleXOffset;
+	int cpuPaddleX = width - paddleXOffset;
+	int paddleY = centerY - paddleHeight / 2;
+	
+	userPaddle = Rect(userPaddleX, paddleY, paddleWidth, paddleHeight);
+	cpuPaddle =  Rect(cpuPaddleX, paddleY, paddleWidth, paddleHeight);
+}
 
 void Pong::drawStart() {
     glColor3f(1.0,1.0,1.0);
@@ -22,5 +32,5 @@ void Pong::drawEnd() {
 
 
 void Pong::timestep() {
-	
+
 }

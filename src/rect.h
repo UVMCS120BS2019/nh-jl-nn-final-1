@@ -14,7 +14,7 @@ private:
     double height;
 public:
     Rect();
-    Rect(double width, double height);
+    Rect(int x, int y, double width, double height);
     double getWidth() const;
     double getHeight() const;
 
