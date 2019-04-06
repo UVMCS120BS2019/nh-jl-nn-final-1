@@ -52,53 +52,8 @@ public:
 	virtual ~Shape() {}
 };
 
-
 // =========================== Circle ===========================
-class Circle : public Shape {
-private:
-	double radius;
-public:
-	Circle();
-	Circle(double radius);
 
-	int get_radius() const;
-
-	// must be >= 0
-	void set_radius(int radius);
-	
-	virtual double get_area() const override;
-	virtual double get_perimeter() const override;
-	virtual void draw() const override;
-	// for overriding << operator
-	std::ostream& doprint(std::ostream& out) const override;
-
-};
-
-
-// =========================== Rect ===========================
-class Rect : public Shape {
-private:
-	double width;
-	double length;
-public:
-	Rect();
-	Rect(double width, double length);
-	double get_width() const;
-	double get_length() const;
-
-	// must be >= 0
-	void set_width(const double& width);
-	void set_length(const double& length);
-
-	virtual double get_area() const override;
-	virtual double get_perimeter() const override;
-	virtual void draw() const override;
-
-	// for overriding <<
-	std::ostream& doprint(std::ostream& out) const override;
-};
-
-
-
+// =========================== Rect =============================
 
 #endif //SHAPES_SHAPES_H
