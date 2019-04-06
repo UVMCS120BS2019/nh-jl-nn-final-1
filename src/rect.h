@@ -11,19 +11,17 @@
 class Rect : public Shape {
 private:
     double width;
-    double length;
+    double height;
 public:
     Rect();
-    Rect(double width, double length);
-    double get_width() const;
-    double get_length() const;
+    Rect(double width, double height);
+    double getWidth() const;
+    double getLength() const;
 
     // must be >= 0
-    void set_width(const double& width);
-    void set_length(const double& length);
+    void setWidth(const double& width);
+    void setLength(const double& height);
 
-    virtual double get_area() const override;
-    virtual double get_perimeter() const override;
     virtual void draw() const override;
 
     // for overriding <<
