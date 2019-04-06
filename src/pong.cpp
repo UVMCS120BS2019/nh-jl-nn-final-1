@@ -27,9 +27,16 @@ void Pong::drawGame() {
 }
 
 void Pong::drawEnd() {
-	
-}
+    if (userScore > cpuScore) {
 
+    }
+    if (userScore < cpuScore) {
+
+    }
+    if (userScore == cpuScore) {
+
+    }
+}
 
 void Pong::timestep() {
 
