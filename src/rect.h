@@ -5,6 +5,7 @@
 #ifndef GRAPHICS_STARTER_RECT_H
 #define GRAPHICS_STARTER_RECT_H
 
+#include "shapes.h"
 #include "rect.h"
 
 class Rect : public Shape {
