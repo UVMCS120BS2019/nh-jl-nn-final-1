@@ -16,7 +16,7 @@ double Rect::getWidth() const {
     return width;
 }
 
-double Rect::getLength() const {
+double Rect::getHeight() const {
     return height;
 }
 
@@ -26,8 +26,8 @@ void Rect::setWidth(const double& width) {
     }
 }
 
-void Rect::setLength(const double& length) {
-    if (length >= 0) {
+void Rect::setHeight(const double& height) {
+    if (height >= 0) {
         this->height = height;
     }
 }

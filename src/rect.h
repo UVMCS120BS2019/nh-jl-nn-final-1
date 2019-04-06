@@ -16,11 +16,11 @@ public:
     Rect();
     Rect(double width, double height);
     double getWidth() const;
-    double getLength() const;
+    double getHeight() const;
 
     // must be >= 0
     void setWidth(const double& width);
-    void setLength(const double& height);
+    void setHeight(const double& height);
 
     virtual void draw() const override;
 

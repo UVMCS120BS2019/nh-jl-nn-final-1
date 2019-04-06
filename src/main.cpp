@@ -51,7 +51,7 @@ void display() {
 	Rect rect;
 
 	rect.setWidth(10);
-	rect.setLength(20);
+	rect.setHeight(20);
 	rect.setX(30);
 	rect.setY(30);
 	rect.draw();
