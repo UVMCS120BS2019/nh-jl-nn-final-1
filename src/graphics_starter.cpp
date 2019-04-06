@@ -8,19 +8,22 @@ using namespace std;
 GLdouble width, height;
 int wd;
 
+// 0 for start screen, 1 for game, 2 for end
+int programState;
+
 void init() {
-    width = 900;
-    height = 500;
+	width = 900;
+	height = 500;
 }
 
 /* Initialize OpenGL Graphics */
 void initGL() {
-    // Set "clearing" or background color
-    glClearColor(1.0f, 1.0f, 0.0f, 1.0f); // Black and opaque
+	// Set "clearing" or background color
+	glClearColor(1.0f, 1.0f, 0.0f, 1.0f); // Black and opaque
 }
 
 /* Handler for window-repaint event. Call back when the window first appears and
- whenever the window needs to be re-painted. */
+   whenever the window needs to be re-painted. */
 void display() {
     // tell OpenGL to use the whole window for drawing
     glViewport(0, 0, width, height);
@@ -38,66 +41,72 @@ void display() {
     /*
      * Draw here
      */
-
-	glColor3f(1.0, 0.0, 1.0);
-	glBegin(GL_QUADS);
-
-	glColor3f(0.7, 0.0, 1.0);
-	glVertex2i(10 + 50 + 200, 80 + 50);
-
-	glColor3f(0.0, 0.0, 1.0);
-	glVertex2i(10 + 50, 90 + 100);
-
-	
-
-	glColor3f(0.0, 1.0, 0.0);
-	glVertex2i(20 + 100 + 200, 80 + 50);
-
-	glColor3f(1.0, 0.0, 0.0);
-	glVertex2i(20 + 100, 90 + 100);
-	
-	glEnd();
-
-
 	int x = 500;
 	int y = 200;
 
-	glColor3f(0.0, 0.0, 1.0);
-	glBegin(GL_TRIANGLES);
-	glVertex2i(x, y);
-	glVertex2i(x + 100, y + 100);
-	glVertex2i(x + 100, y);
 
-	glVertex2i(x + 200, y + 200);
-	glVertex2i(x + 200 + 100, y + 100 + 200);
-	glVertex2i(x + 200 + 100, y + 200);
-	glEnd();
+	switch(programState) {
+	case 0:
+		glColor3f(1.0, 0.0, 1.0);
+		glBegin(GL_QUADS);
 
-	x = 50;
-	y = 250;
+		glColor3f(0.7, 0.0, 1.0);
+		glVertex2i(10 + 50 + 200, 80 + 50);
 
-	glColor3f(0.5, 0.5, 1.0);
-	glBegin(GL_TRIANGLE_STRIP);
-	glVertex2i(x, y);
-	glVertex2i(x, y + 100);
-	glVertex2i(x + 100, y + 100);
-	glVertex2i(x + 200, y + 200);
-	glVertex2i(x + 150, y + 200);
-	glEnd();
+		glColor3f(0.0, 0.0, 1.0);
+		glVertex2i(10 + 50, 90 + 100);
 
-	x = 700;
-	y = 10;
+	
 
-	glColor3f(1.0, 0.0, 0.3);
-	glBegin(GL_TRIANGLE_FAN);
-	glVertex2i(x, y + 100);
-	glVertex2i(x, y);
-	glVertex2i(x + 100, y + 100);
-	glVertex2i(x + 200, y + 200);
-	glVertex2i(x + 150, y + 200);
-	glEnd();
+		glColor3f(0.0, 1.0, 0.0);
+		glVertex2i(20 + 100 + 200, 80 + 50);
 
-    
+		glColor3f(1.0, 0.0, 0.0);
+		glVertex2i(20 + 100, 90 + 100);
+	
+		glEnd();
+		break;
+
+	case 1:
+	
+		glColor3f(0.0, 0.0, 1.0);
+		glBegin(GL_TRIANGLES);
+		glVertex2i(x, y);
+		glVertex2i(x + 100, y + 100);
+		glVertex2i(x + 100, y);
+
+		glVertex2i(x + 200, y + 200);
+		glVertex2i(x + 200 + 100, y + 100 + 200);
+		glVertex2i(x + 200 + 100, y + 200);
+		glEnd();
+
+		x = 50;
+		y = 250;
+
+		glColor3f(0.5, 0.5, 1.0);
+		glBegin(GL_TRIANGLE_STRIP);
+		glVertex2i(x, y);
+		glVertex2i(x, y + 100);
+		glVertex2i(x + 100, y + 100);
+		glVertex2i(x + 200, y + 200);
+		glVertex2i(x + 150, y + 200);
+		glEnd();
+		break;
+		
+	case 2:
+		x = 700;
+		y = 10;
+
+		glColor3f(1.0, 0.0, 0.3);
+		glBegin(GL_TRIANGLE_FAN);
+		glVertex2i(x, y + 100);
+		glVertex2i(x, y);
+		glVertex2i(x + 100, y + 100);
+		glVertex2i(x + 200, y + 200);
+		glVertex2i(x + 150, y + 200);
+		glEnd();
+		break;
+	}
 	glFlush();  // Render now
 }
 
@@ -108,7 +117,9 @@ void kbd(unsigned char key, int x, int y)
     if (key == 27) {
         glutDestroyWindow(wd);
         exit(0);
-    }
+    } else if (key == 97) {
+		programState = (programState + 1) % 3;
+	}
 
     
 	glutPostRedisplay();
@@ -116,18 +127,18 @@ void kbd(unsigned char key, int x, int y)
 
 void kbdS(int key, int x, int y) {
     switch(key) {
-        case GLUT_KEY_DOWN:
+	case GLUT_KEY_DOWN:
             
-            break;
-        case GLUT_KEY_LEFT:
+		break;
+	case GLUT_KEY_LEFT:
             
-            break;
-        case GLUT_KEY_RIGHT:
+		break;
+	case GLUT_KEY_RIGHT:
             
-            break;
-        case GLUT_KEY_UP:
+		break;
+	case GLUT_KEY_UP:
             
-            break;
+		break;
     }
     
     glutPostRedisplay();
@@ -187,16 +198,6 @@ int main(int argc, char** argv) {
     // handles timer
     glutTimerFunc(0, timer, 0);
 
-
-	int x = 200;
-	int y = 200;
-	glColor3f(1.0, 0, 0);
-	glBegin(GL_TRIANGLES);
-	glVertex2i(x, y);
-	glVertex2i(x + 100, y + 100);
-	glVertex2i(x + 100, y);
-	glEnd();
-	
 	// Enter the event-processing loop
     glutMainLoop();
     return 0;
