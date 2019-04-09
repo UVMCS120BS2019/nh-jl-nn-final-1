@@ -7,13 +7,18 @@
 #include "rect.h"
 #include "circle.h"
 #include "pong.h"
+#include "Button.h"
 
+#include <stdio.h>
+#include <conio.h>
+#include <dos.h>
+#include <stdlib.h>
 using namespace std;
 
 GLdouble width, height;
 int wd;
 
-Pong pong;
+//Pong pong;
 
 // 0 for start screen, 1 for game, 2 for end
 int programState;
@@ -51,13 +56,11 @@ void display() {
 
 
 	// text rendering
-    glRasterPos2i(100, 120);
-    glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , 'a' );
-
-    glRasterPos2i(110, 120);
-    glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , 'b' );
-
-
+    Quad box({1, 0, 0}, {100, 100}, 100, 50);
+    Button spawn(box, "Spawn");
+    spawn.draw();
+//    glRasterPos2i(150, 120);
+//    glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , 'b' );
 
 
 	int x = 500;
@@ -99,7 +102,7 @@ void display() {
 		// circle.setY(200);
 		// circle.draw();
 
-		pong.drawGame();
+		//pong.drawGame();
 
 		break;
 	}
