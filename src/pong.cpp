@@ -1,4 +1,8 @@
 #include "pong.h"
+#include "shapes.h"
+#include "rect.h"
+#include "circle.h"
+#include "Button.h"
 
 
 Pong::Pong() {
@@ -35,14 +39,26 @@ void Pong::drawGame() {
 
 void Pong::drawEnd() {
     if (userScore > cpuScore) {
-
+        Quad box({1, 0, 0}, {260, 100}, 350, 50);
+        Button message(box, "You have beat the Computer!");
+        message.draw();
     }
     if (userScore < cpuScore) {
-
+        Quad box({1, 0, 0}, {260, 100}, 350, 50);
+        Button message(box, "You have lost to the Computer!");
+        message.draw();
     }
     if (userScore == cpuScore) {
-
+        Quad box({1, 0, 0}, {260, 100}, 350, 50);
+        Button message(box, "You have tied the Computer!");
+        message.draw();
     }
+
+    // Play again button
+    Quad box2({1, 0, 0}, {260, 320}, 200, 50);
+    Button button(box2, "Play Again?");
+    button.draw();
+    //TODO: set to start sceen
 }
 
 void Pong::timestep() {

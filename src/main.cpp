@@ -8,17 +8,12 @@
 #include "circle.h"
 #include "pong.h"
 #include "Button.h"
-
-#include <stdio.h>
-#include <conio.h>
-#include <dos.h>
-#include <stdlib.h>
 using namespace std;
 
 GLdouble width, height;
 int wd;
 
-//Pong pong;
+Pong pong;
 
 // 0 for start screen, 1 for game, 2 for end
 int programState;
@@ -56,99 +51,45 @@ void display() {
 
 
 	// text rendering
-    Quad box({1, 0, 0}, {100, 100}, 100, 50);
-    Button spawn(box, "Spawn");
-    spawn.draw();
+//    Quad box({1, 0, 0}, {260, 100}, 350, 50);
+//    Button message(box, "You have beat the Computer!");
+//    message.draw();
+//
+//    Quad box2({1, 0, 0}, {260, 320}, 200, 50);
+//    Button button(box2, "Play Again?");
+//    button.draw();
 //    glRasterPos2i(150, 120);
 //    glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , 'b' );
 
 
-	int x = 500;
-	int y = 200;
-
-	Rect rect;
-
-	rect.setWidth(10);
-	rect.setHeight(20);
-	rect.setX(30);
-	rect.setY(30);
-	rect.draw();
-
+//	int x = 500;
+//	int y = 200;
+//
+//	Rect rect;
+//
+//	rect.setWidth(10);
+//	rect.setHeight(20);
+//	rect.setX(30);
+//	rect.setY(30);
+//	rect.draw();
+//
 
 	switch(programState) {
 	case 0: {
-		// glColor3f(1.0, 0.0, 1.0);
-		// glBegin(GL_QUADS);
-
-		// glColor3f(0.7, 0.0, 1.0);
-		// glVertex2i(10 + 50 + 200, 80 + 50);
-
-		// glColor3f(0.0, 0.0, 1.0);
-		// glVertex2i(10 + 50, 90 + 100);
-
-	
-
-		// glColor3f(0.0, 1.0, 0.0);
-		// glVertex2i(20 + 100 + 200, 80 + 50);
-
-		// glColor3f(1.0, 0.0, 0.0);
-		// glVertex2i(20 + 100, 90 + 100);
-	
-		// glEnd();
-		// // Circle Test
-		// glColor3f(1.0, 0.0, 0.3);
-		// Circle circle(15.0);
-		// circle.setX(300);
-		// circle.setY(200);
-		// circle.draw();
-
-		//pong.drawGame();
-
+		pong.drawStart();
 		break;
 	}
 		
 	case 1: {
-	
-		glColor3f(0.0, 0.0, 1.0);
-		glBegin(GL_TRIANGLES);
-		glVertex2i(x, y);
-		glVertex2i(x + 100, y + 100);
-		glVertex2i(x + 100, y);
-
-		glVertex2i(x + 200, y + 200);
-		glVertex2i(x + 200 + 100, y + 100 + 200);
-		glVertex2i(x + 200 + 100, y + 200);
-		glEnd();
-
-		x = 50;
-		y = 250;
-
-		glColor3f(0.5, 0.5, 1.0);
-		glBegin(GL_TRIANGLE_STRIP);
-		glVertex2i(x, y);
-		glVertex2i(x, y + 100);
-		glVertex2i(x + 100, y + 100);
-		glVertex2i(x + 200, y + 200);
-		glVertex2i(x + 150, y + 200);
-		glEnd();
+	    pong.drawGame();
 		break;
 	}
 		
 	case 2: {
-		x = 700;
-		y = 10;
-
-		glColor3f(1.0, 0.0, 0.3);
-		glBegin(GL_TRIANGLE_FAN);
-		glVertex2i(x, y + 100);
-		glVertex2i(x, y);
-		glVertex2i(x + 100, y + 100);
-		glVertex2i(x + 200, y + 200);
-		glVertex2i(x + 150, y + 200);
-		glEnd();
+		pong.drawEnd();
 		break;
 	}
-	}
+}
 
 
 	glFlush();  // Render now
@@ -189,7 +130,6 @@ void kbdS(int key, int x, int y) {
 }
 
 void cursor(int x, int y) {
-    
     glutPostRedisplay();
 }
 
