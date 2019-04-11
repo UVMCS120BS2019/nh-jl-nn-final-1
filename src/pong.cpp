@@ -1,10 +1,6 @@
 #include "pong.h"
-#include "shapes.h"
-#include "rect.h"
-#include "circle.h"
-#include "Button.h"
 
-Pong::Pong() {
+Pong::Pong() : box({1, 0, 0}, {240, 320}, 200, 50), button(box, "Play Again?") {
 	int centerY = height / 2;
 
 	int userPaddleX = paddleXOffset;
@@ -14,6 +10,9 @@ Pong::Pong() {
 	userPaddle = Rect(userPaddleX, paddleY, paddleWidth, paddleHeight);
 	cpuPaddle =  Rect(cpuPaddleX, paddleY, paddleWidth, paddleHeight);
 	ball = Circle(width / 2, height / 2, ballRadius);
+
+    box = Quad({1, 0, 0}, {240, 320}, 200, 50);
+    button = Button(box, "Play Again?");
 
 	ballVelX = 4;
 	ballVelY = 0.5;
@@ -48,10 +47,7 @@ void Pong::drawEnd() {
     }
 
     // Play again button
-    Quad box2({1, 0, 0}, {240, 320}, 200, 50);
-    Button button(box2, "Play Again?");
     button.draw();
-    //TODO: set to start screen and get button to work
 }
 
 void Pong::timestep() {
@@ -64,9 +60,9 @@ void Pong::timestep() {
 	}
 	ball.setX(ballX + ballVelX);
 	ball.setY(ballY + ballVelY);
-
 }
 
+// Function to draw strings
 void Pong::drawString(string label) {
     glColor3f(1.0f, 0.0f, 0.0f);
     glRasterPos2i(120, 150);
@@ -74,4 +70,29 @@ void Pong::drawString(string label) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
     }
     glEnd();
+}
+
+////////// Functions to make Play Again button work ///////////////////////
+void Pong::setButton(const Button &button) {
+    Pong::button = button;
+}
+
+const Button &Pong::getButton() const {
+    return button;
+}
+
+void Pong::buttonHover() {
+    button.hover();
+}
+
+void Pong::buttonRelease() {
+    button.release();
+}
+
+void Pong::buttonPressDown() {
+    button.pressDown();
+}
+
+void Pong::buttonClick() {
+    button.click(setProgramState);
 }

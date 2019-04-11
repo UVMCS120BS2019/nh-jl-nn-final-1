@@ -5,6 +5,9 @@
 #include "circle.h"
 #include "graphics.h"
 #include "shapes.h"
+#include "shapes.h"
+#include "Button.h"
+
 using namespace std;
 
 class Pong {
@@ -13,9 +16,9 @@ private:
 	const static int paddleHeight = 50;
 	const static int paddleWidth = 10;
 	const static int ballRadius = 8;
-	//string label = "";
-	
-	
+
+    Quad box;
+    Button button;
 	Rect userPaddle;
 	Rect cpuPaddle;
 	Circle ball;
@@ -27,20 +30,26 @@ public:
 	const static int width = 500;
 	const static int height = 500;
 
-	
-	
 	int userScore;
 	int cpuScore;
 
 	Pong();
-	
-	void drawStart();
+
+	//////// These functions below are used to make play again button work
+    void setButton(const Button &button);
+    const Button &getButton() const;
+    void buttonHover();
+    void buttonRelease();
+    void buttonPressDown();
+    void buttonClick();
+    /**************************************/
+
+    void drawStart();
 	void drawGame();
 	void drawEnd();
 
 	void timestep();
     void drawString(string label);
-
 };
 
 
