@@ -74,24 +74,20 @@ void display() {
 //	rect.draw();
 //
 
-	switch(programState) {
+switch(programState) {
 	case 0: {
 		pong.drawStart();
 		break;
 	}
-		
 	case 1: {
 	    pong.drawGame();
 		break;
 	}
-		
 	case 2: {
 		pong.drawEnd();
 		break;
 	}
 }
-
-
 	glFlush();  // Render now
 }
 

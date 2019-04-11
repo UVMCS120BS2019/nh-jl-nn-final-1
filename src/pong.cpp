@@ -4,7 +4,6 @@
 #include "circle.h"
 #include "Button.h"
 
-
 Pong::Pong() {
 	int centerY = height / 2;
 
@@ -39,26 +38,20 @@ void Pong::drawGame() {
 
 void Pong::drawEnd() {
     if (userScore > cpuScore) {
-        Quad box({1, 0, 0}, {260, 100}, 350, 50);
-        Button message(box, "You have beat the Computer!");
-        message.draw();
+        drawString("You have beat the Computer!");
     }
     if (userScore < cpuScore) {
-        Quad box({1, 0, 0}, {260, 100}, 350, 50);
-        Button message(box, "You have lost to the Computer!");
-        message.draw();
+        drawString("You have lost to the Computer!");
     }
     if (userScore == cpuScore) {
-        Quad box({1, 0, 0}, {260, 100}, 350, 50);
-        Button message(box, "You have tied the Computer!");
-        message.draw();
+        drawString("You have tied the Computer!");
     }
 
     // Play again button
-    Quad box2({1, 0, 0}, {260, 320}, 200, 50);
+    Quad box2({1, 0, 0}, {240, 320}, 200, 50);
     Button button(box2, "Play Again?");
     button.draw();
-    //TODO: set to start sceen
+    //TODO: set to start screen and get button to work
 }
 
 void Pong::timestep() {
@@ -72,4 +65,14 @@ void Pong::timestep() {
 	ball.setX(ballX + ballVelX);
 	ball.setY(ballY + ballVelY);
 
+}
+
+void Pong::drawString(string label) {
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glRasterPos2i(120, 150);
+    //int len = 5;
+    for (char &letter : label)  {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+    glEnd();
 }

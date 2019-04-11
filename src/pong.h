@@ -5,6 +5,7 @@
 #include "circle.h"
 #include "graphics.h"
 #include "shapes.h"
+using namespace std;
 
 class Pong {
 private:
@@ -12,6 +13,7 @@ private:
 	const static int paddleHeight = 50;
 	const static int paddleWidth = 10;
 	const static int ballRadius = 8;
+	//string label = "";
 	
 	
 	Rect userPaddle;
@@ -37,6 +39,7 @@ public:
 	void drawEnd();
 
 	void timestep();
+    void drawString(string label);
 
 };
 
