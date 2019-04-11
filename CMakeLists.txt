@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(nh-jl-nn-final-1)
+project(Pong1)
 
 if (WIN32)
     set(FREEGLUT_INCLUDE_DIRS "C:/Program\ Files/Common\ Files/freeglut/include")
