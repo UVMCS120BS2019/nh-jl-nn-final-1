@@ -70,7 +70,6 @@ void Pong::timestep() {
 void Pong::drawString(string label) {
     glColor3f(1.0f, 0.0f, 0.0f);
     glRasterPos2i(120, 150);
-    //int len = 5;
     for (char &letter : label)  {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
     }
