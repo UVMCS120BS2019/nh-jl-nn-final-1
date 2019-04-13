@@ -20,13 +20,10 @@ void Pong::drawStart() {
 }
 
 void Pong::drawGame() {
-	if (shouldRestartRound) {
-		playRound();
-	}
+
 	userPaddle.draw();
 	cpuPaddle.draw();
 	ball.draw();
-	timestep();
 	displayScore();
 }
 
@@ -46,15 +43,32 @@ void Pong::drawEnd() {
 }
 
 void Pong::timestep() {
+
+	if (shouldRestartRound) {
+		startRound();
+	}
+	
 	int ballX = ball.getX();
 	int ballY = ball.getY();
 
 	deflectBall();
+
+	cpuPaddle.move(0, ball.getY() - cpuPaddle.getCenterY());
 	
 	ball.setX(ballX + ballVelX);
 	ball.setY(ballY + ballVelY);
 
-	cpuPaddle.move(0, ball.getY() - cpuPaddle.getCenterY());
+	if (ball.getLeftX() < 0) {
+		++cpuScore;
+		userScoredLast = false;
+		shouldRestartRound = true;
+	} else if (ball.getRightX() > width) {
+		++userScore;
+		userScoredLast = true;
+		shouldRestartRound = true;
+	}
+	
+
 }
 
 
@@ -127,10 +141,28 @@ bool Pong::roundIsOver() {
 	return ball.getLeftX() > 0 && ball.getRightX() < width;
 }
 
-void Pong::playRound() {
+void Pong::startRound() {
 	shouldRestartRound = false;
 	ball.setX(width / 2);
 	ball.setY(height / 2);
-	ballVelX = 4;
-	ballVelY = 3;
+	ballVelX = 5;
+	ballVelY = 5;
+}
+void Pong::drawScore(string message, string message2, string userScore, string cpuScore) {
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glRasterPos2i(120, 30);
+    for (char &letter : message) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+    for (char &letter : userScore) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+    for (char &letter : message2) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+    for (char &letter : cpuScore) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+
+    glEnd();
 }

@@ -59,7 +59,7 @@ public:
     void drawString(string label);
 
 	bool roundIsOver();
-	void playRound();
+	void startRound();
 
 };
 

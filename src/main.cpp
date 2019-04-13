@@ -8,9 +8,8 @@
 #include "pong.h"
 #include "Button.h"
 
-// to sleep
-#include <chrono>
-#include <thread>
+
+
 
 
 using namespace std;
@@ -21,12 +20,13 @@ int wd;
 Pong pong;
 
 // 0 for start screen, 1 for game, 2 for end
-int programState;
+enum state {start, game, end};
+state programState;
 
 int lastTick;
 
 void setProgramState() {
-    programState = 0;
+    programState = state::start;
 }
 
 void init() {
@@ -58,16 +58,16 @@ void display() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     switch(programState) {
-        case 0: {
-            pong.drawStart();
+	case state::start: {
+		pong.drawStart();
             break;
         }
-        case 1: {
-            pong.drawGame();
+	case state::game: {
+		pong.drawGame();
             break;
         }
-        case 2: {
-            pong.drawEnd();
+	case state::end: {
+		pong.drawEnd();
             break;
         }
     }
@@ -83,7 +83,14 @@ void kbd(unsigned char key, int x, int y)
         glutDestroyWindow(wd);
         exit(0);
     } else if (key == 97) {
-		programState = (programState + 1) % 3;
+		if (programState == state::start) {
+			programState = state::game;			
+		} else if (programState == state::game) {
+			programState = state::end;
+		} else {
+			programState = state::start;
+		}
+
 	}
 	glutPostRedisplay();
 }
@@ -133,11 +140,12 @@ void mouse(int button, int state, int x, int y) {
 void timer(int dummy) {
 	int tick = glutGet(GLUT_ELAPSED_TIME);
 	if (tick < lastTick) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		return;
 	}
 	while (tick > lastTick) {
-		pong.timestep();
+		if (programState == 1) {
+			pong.timestep();
+		}
 		lastTick += 1000 / 45;
 	}
 	glutPostRedisplay();
