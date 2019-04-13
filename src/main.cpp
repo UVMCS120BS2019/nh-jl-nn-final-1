@@ -53,7 +53,7 @@ void display() {
     glLoadIdentity();
     glOrtho(0.0, width, height, 0.0, -1.f, 1.f);
     
-    glClear(GL_COLOR_BUFFER_BIT);   // Clear the color buffer with current clearing color
+    glClear(GL_COLOR_BUFFER_BIT); // Clear the color buffer with current clearing color
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -149,8 +149,6 @@ void timer(int dummy) {
 		lastTick += 1000 / 45;
 	}
 	glutPostRedisplay();
-
-	
 }
 
 void callDisplay(int dummy) {
@@ -195,8 +193,6 @@ int main(int argc, char** argv) {
     // handles timer
     glutTimerFunc(0, callDisplay, 0);
 
-
-	
 	// Enter the event-processing loop
     glutMainLoop();
     return 0;
