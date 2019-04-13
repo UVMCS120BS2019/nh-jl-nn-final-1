@@ -24,14 +24,12 @@ private:
 	Circle ball;
 	double ballVelX;
 	double ballVelY;
-
+    int userScore;
+    int cpuScore;
 
 public:
 	const static int width = 500;
 	const static int height = 500;
-
-	int userScore;
-	int cpuScore;
 
 	Pong();
 
@@ -52,6 +50,8 @@ public:
 	void moveUp();
 
 	void timestep();
+    void displayScore();
+    void drawScore(string message, string message2, string userScore, string cpuScore);
 
 	void deflectBall();
 	

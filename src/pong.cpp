@@ -18,13 +18,7 @@ Pong::Pong() : box({1, 0, 0}, {240, 320}, 200, 50), button(box, "Play Again?") {
 }
 
 void Pong::drawStart() {
-    glColor3f(1.0,1.0,1.0);
-    glBegin(GL_QUADS);
-    glVertex2i(10,80);
-    glVertex2i(10,150);
-    glVertex2i(20,150);
-    glVertex2i(20,80);
-    glEnd();
+    drawString("Welcome to Pong!");
 }
 
 void Pong::drawGame() {
@@ -32,6 +26,7 @@ void Pong::drawGame() {
 	cpuPaddle.draw();
 	ball.draw();
 	timestep();
+	displayScore();
 }
 
 void Pong::drawEnd() {
@@ -117,4 +112,30 @@ void Pong::moveDown() {
 }
 void Pong::moveUp() {
     userPaddle.move(0, +10);
+}
+
+void Pong::displayScore() {
+    string stringUser = to_string(userScore);
+    string stringCpu = to_string(cpuScore);
+    //drawSt
+    drawScore("User Score: ", "  CPU Score: ", stringUser, stringCpu);
+}
+
+void Pong::drawScore(string message, string message2, string userScore, string cpuScore) {
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glRasterPos2i(120, 30);
+    for (char &letter : message) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+    for (char &letter : userScore) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+    for (char &letter : message2) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+    for (char &letter : cpuScore) {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
+
+    glEnd();
 }
