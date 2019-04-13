@@ -25,6 +25,8 @@ private:
 	double ballVelX;
 	double ballVelY;
 
+	bool shouldRestartRound;
+	bool userScoredLast;
 
 public:
 	const static int width = 500;
@@ -56,6 +58,10 @@ public:
 	void deflectBall();
 	
     void drawString(string label);
+
+	bool roundIsOver();
+	void playRound();
+
 };
 
 

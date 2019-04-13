@@ -8,6 +8,12 @@
 #include "circle.h"
 #include "pong.h"
 #include "Button.h"
+
+// to sleep
+#include <chrono>
+#include <thread>
+
+
 using namespace std;
 
 GLdouble width, height;
@@ -18,6 +24,8 @@ Pong pong;
 // 0 for start screen, 1 for game, 2 for end
 int programState;
 
+int lastTick;
+
 void setProgramState() {
     programState = 0;
 }
@@ -25,6 +33,7 @@ void setProgramState() {
 void init() {
 	width = Pong::width;
 	height = Pong::height;
+	lastTick = 0;
 }
 
 /* Initialize OpenGL Graphics */
@@ -64,6 +73,7 @@ void display() {
         }
     }
 	glFlush();  // Render now
+	timer(0);
 }
 
 // http://www.theasciicode.com.ar/ascii-control-characters/escape-ascii-code-27.html
@@ -129,8 +139,24 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void timer(int dummy) {
-    glutPostRedisplay();
-    glutTimerFunc(30, timer, dummy);
+	int tick = glutGet(GLUT_ELAPSED_TIME);
+	if (tick < lastTick) {
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		return;
+	}
+	while (tick > lastTick) {
+		pong.timestep();
+		lastTick += 1000 / 45;
+	}
+	glutPostRedisplay();
+
+	
+}
+
+void callDisplay(int dummy) {
+	display();
+	glutPostRedisplay();
+	glutTimerFunc(0, callDisplay, 0);
 }
 
 /* Main function: GLUT runs as a console application starting at main()  */
@@ -167,8 +193,10 @@ int main(int argc, char** argv) {
     glutMouseFunc(mouse);
     
     // handles timer
-    glutTimerFunc(0, timer, 0);
+    glutTimerFunc(0, callDisplay, 0);
 
+
+	
 	// Enter the event-processing loop
     glutMainLoop();
     return 0;

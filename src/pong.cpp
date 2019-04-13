@@ -12,9 +12,7 @@ Pong::Pong() : box({1, 0, 0}, {240, 320}, 200, 50), button(box, "Play Again?") {
 
     box = Quad({1, 0, 0}, {240, 320}, 200, 50);
     button = Button(box, "Play Again?");
-
-	ballVelX = 4;
-	ballVelY = 0.5;
+	shouldRestartRound = true;
 }
 
 void Pong::drawStart() {
@@ -28,10 +26,12 @@ void Pong::drawStart() {
 }
 
 void Pong::drawGame() {
+	if (shouldRestartRound) {
+		playRound();
+	}
 	userPaddle.draw();
 	cpuPaddle.draw();
 	ball.draw();
-	timestep();
 }
 
 void Pong::drawEnd() {
@@ -57,17 +57,19 @@ void Pong::timestep() {
 	
 	ball.setX(ballX + ballVelX);
 	ball.setY(ballY + ballVelY);
+
+	cpuPaddle.move(0, ball.getY() - cpuPaddle.getCenterY());
 }
 
 
 
 void Pong::deflectBall() {
-	if (ball.getRightX() > cpuPaddle.getLeftX()) {
+	if (ball.getRightX() > cpuPaddle.getLeftX() && cpuPaddle.getTopY() < ball.getTopY() && cpuPaddle.getBottomY() > ball.getBottomY()  ) {
 		// double power = 2 * (cpuPaddle.getCenterY() - ball.getCenterY()) / Pong::paddleHeight;
 		// double deflectionAngle = power * 90;
 		ballVelX *= -1;
 		
-	} else if (ball.getLeftX() < userPaddle.getRightX()) {
+	} else if (ball.getLeftX() < userPaddle.getRightX() && userPaddle.getTopY() < ball.getTopY() && userPaddle.getBottomY() > ball.getBottomY() ) {
 		ballVelX *= -1;
 	} else if (ball.getBottomY() > height) {
 		ballVelY *= -1;
@@ -117,4 +119,16 @@ void Pong::moveDown(){
 }
 void Pong::moveUp() {
     userPaddle;
+}
+
+bool Pong::roundIsOver() {
+	return ball.getLeftX() > 0 && ball.getRightX() < width;
+}
+
+void Pong::playRound() {
+	shouldRestartRound = false;
+	ball.setX(width / 2);
+	ball.setY(height / 2);
+	ballVelX = 4;
+	ballVelY = 3;
 }
