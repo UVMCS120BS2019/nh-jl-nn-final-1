@@ -48,6 +48,9 @@ public:
 	void drawGame();
 	void drawEnd();
 
+	void moveDown();
+	void moveUp();
+
 	void timestep();
     void drawString(string label);
 };

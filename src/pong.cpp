@@ -96,3 +96,10 @@ void Pong::buttonPressDown() {
 void Pong::buttonClick() {
     button.click(setProgramState);
 }
+
+void Pong::moveDown(){
+    userPaddle;
+}
+void Pong::moveUp() {
+    userPaddle;
+}

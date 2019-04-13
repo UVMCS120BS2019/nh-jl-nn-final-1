@@ -48,35 +48,6 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT);   // Clear the color buffer with current clearing color
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    
-    /*
-     * Draw here
-     */
-
-
-	// text rendering
-//    Quad box({1, 0, 0}, {260, 100}, 350, 50);
-//    Button message(box, "You have beat the Computer!");
-//    message.draw();
-//
-//    Quad box2({1, 0, 0}, {260, 320}, 200, 50);
-//    Button button(box2, "Play Again?");
-//    button.draw();
-//    glRasterPos2i(150, 120);
-//    glutBitmapCharacter( GLUT_BITMAP_HELVETICA_18 , 'b' );
-
-
-//	int x = 500;
-//	int y = 200;
-//
-//	Rect rect;
-//
-//	rect.setWidth(10);
-//	rect.setHeight(20);
-//	rect.setX(30);
-//	rect.setY(30);
-//	rect.draw();
-//
 
     switch(programState) {
         case 0: {
@@ -111,7 +82,7 @@ void kbd(unsigned char key, int x, int y)
 void kbdS(int key, int x, int y) {
     switch(key) {
     case GLUT_KEY_DOWN:
-
+        pong.moveDown();
         break;
     case GLUT_KEY_LEFT:
 
@@ -120,7 +91,7 @@ void kbdS(int key, int x, int y) {
 
         break;
     case GLUT_KEY_UP:
-
+        pong.moveUp();
         break;
 }
     
