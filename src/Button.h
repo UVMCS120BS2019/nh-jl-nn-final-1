@@ -8,6 +8,7 @@
 #include <string>
 #include <functional>
 #include "Quad.h"
+#include "graphics.h"
 
 class Button { 
 private:

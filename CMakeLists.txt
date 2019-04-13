@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wno-deprecated -Werror=retur
 
 find_package (OpenGL REQUIRED)
 
-if (APPLE OR UNIX)
+if (APPLE OR UNIX) 
     find_package(GLUT REQUIRED)
 endif (APPLE OR UNIX)
 

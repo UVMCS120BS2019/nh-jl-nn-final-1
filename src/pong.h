@@ -1,7 +1,6 @@
 #ifndef PONG_H
 #define PONG_H
 
-#include "rect.h"
 #include "circle.h"
 #include "graphics.h"
 #include "shapes.h"
