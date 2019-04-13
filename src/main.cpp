@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "shapes.h"
-#include "rect.h"
 #include "circle.h"
 #include "pong.h"
 #include "Button.h"

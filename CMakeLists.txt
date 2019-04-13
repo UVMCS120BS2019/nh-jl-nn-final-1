@@ -28,7 +28,7 @@ file(GLOB SOURCE_FILES
   src/*.h
   )
 
-add_executable(graphics ${SOURCE_FILES})
+add_executable(graphics ${SOURCE_FILES} src/Quad.h src/Quad.cpp src/Quad.h)
 
 if (WIN32)
     target_link_libraries (graphics ${OPENGL_LIBRARIES} freeglut)
