@@ -38,7 +38,6 @@ public:
     virtual void click(std::function<void()> callback);
 
 	void move(int x, int y);
-
 };
 
 

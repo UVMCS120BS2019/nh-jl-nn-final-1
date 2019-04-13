@@ -108,16 +108,15 @@ void Pong::buttonClick() {
 }
 
 void Pong::moveDown() {
-    userPaddle.move(0, -10);
+    userPaddle.move(0, +10);
 }
 void Pong::moveUp() {
-    userPaddle.move(0, +10);
+    userPaddle.move(0, -10);
 }
 
 void Pong::displayScore() {
     string stringUser = to_string(userScore);
     string stringCpu = to_string(cpuScore);
-    //drawSt
     drawScore("User Score: ", "  CPU Score: ", stringUser, stringCpu);
 }
 

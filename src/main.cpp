@@ -83,17 +83,10 @@ void kbdS(int key, int x, int y) {
     case GLUT_KEY_DOWN:
         pong.moveDown();
         break;
-    case GLUT_KEY_LEFT:
-
-        break;
-    case GLUT_KEY_RIGHT:
-
-        break;
     case GLUT_KEY_UP:
         pong.moveUp();
         break;
-}
-    
+    }
     glutPostRedisplay();
 }
 
@@ -137,7 +130,7 @@ int main(int argc, char** argv) {
     
     init();
     
-    glutInit(&argc, argv);          // Initialize GLUT
+    glutInit(&argc, argv); // Initialize GLUT
     
     glutInitDisplayMode(GLUT_RGBA);
     
