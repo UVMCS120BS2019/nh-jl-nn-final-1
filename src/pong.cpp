@@ -111,10 +111,14 @@ void Pong::buttonClick() {
 }
 
 void Pong::moveDown() {
-    userPaddle.move(0, +10);
+    if(userPaddle.getBottomY() < height) {
+        userPaddle.move(0, +10);
+    }
 }
 void Pong::moveUp() {
-    userPaddle.move(0, -10);
+    if(userPaddle.getTopY() > 0) {
+        userPaddle.move(0, -10);
+    }
 }
 
 void Pong::displayScore() {
