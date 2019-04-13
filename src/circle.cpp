@@ -43,6 +43,28 @@ void Circle::draw() const {
     glEnd();
 }
 
+int Circle::getLeftX() const {
+	return x - radius;
+}
+
+int Circle::getRightX() const {
+	return x + radius;
+}
+
+int Circle::getTopY() const {
+	return y - radius;
+}
+
+int Circle::getBottomY() const {
+	return y + radius;
+}
+
+int Circle::getCenterY() const {
+	return y;
+}
+
+
+
 std::ostream& Circle::doprint(std::ostream& out) const {
     out << "circle centered at (" << x << "," << y << "); radius: " << radius;
     return out;

@@ -13,14 +13,21 @@ class Circle : public Shape {
 
 private:
 	int radius;
-	
+		
 public:
 	Circle();
 	Circle(int radius);
 	Circle(int x, int y, int radius);
 
 	int getRadius() const;
+	
+	int getLeftX() const;
+	int getRightX() const;
+	int getTopY() const;
+	int getBottomY() const;
+	int getCenterY() const;
 
+	
 	// must be >= 0
 	void setRadius(int radius);
 

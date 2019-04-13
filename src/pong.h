@@ -19,8 +19,8 @@ private:
 
     Quad box;
     Button button;
-	Rect userPaddle;
-	Rect cpuPaddle;
+	Quad userPaddle;
+	Quad cpuPaddle;
 	Circle ball;
 	double ballVelX;
 	double ballVelY;
@@ -49,6 +49,9 @@ public:
 	void drawEnd();
 
 	void timestep();
+
+	void deflectBall();
+	
     void drawString(string label);
 };
 

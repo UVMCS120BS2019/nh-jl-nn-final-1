@@ -5,10 +5,9 @@ Pong::Pong() : box({1, 0, 0}, {240, 320}, 200, 50), button(box, "Play Again?") {
 
 	int userPaddleX = paddleXOffset;
 	int cpuPaddleX = width - paddleXOffset;
-	int paddleY = centerY - paddleHeight / 2;
 	
-	userPaddle = Rect(userPaddleX, paddleY, paddleWidth, paddleHeight);
-	cpuPaddle =  Rect(cpuPaddleX, paddleY, paddleWidth, paddleHeight);
+	userPaddle = Quad({1,1,1}, {userPaddleX, centerY}, paddleWidth, paddleHeight);
+	cpuPaddle =  Quad({1,1,1}, {cpuPaddleX, centerY}, paddleWidth, paddleHeight);
 	ball = Circle(width / 2, height / 2, ballRadius);
 
     box = Quad({1, 0, 0}, {240, 320}, 200, 50);
@@ -53,14 +52,30 @@ void Pong::drawEnd() {
 void Pong::timestep() {
 	int ballX = ball.getX();
 	int ballY = ball.getY();
-	if (ballX + ball.getRadius() <= userPaddle.getX() ||
-		ballX + ball.getRadius() >= cpuPaddle.getX()) {
-		ballVelX *= -1;
-		
-	}
+
+	deflectBall();
+	
 	ball.setX(ballX + ballVelX);
 	ball.setY(ballY + ballVelY);
 }
+
+
+
+void Pong::deflectBall() {
+	if (ball.getRightX() > cpuPaddle.getLeftX()) {
+		// double power = 2 * (cpuPaddle.getCenterY() - ball.getCenterY()) / Pong::paddleHeight;
+		// double deflectionAngle = power * 90;
+		ballVelX *= -1;
+		
+	} else if (ball.getLeftX() < userPaddle.getRightX()) {
+		ballVelX *= -1;
+	} else if (ball.getBottomY() > height) {
+		ballVelY *= -1;
+	} else if (ball.getTopY() < 0) {
+		ballVelY *= -1;
+	}
+}
+
 
 // Function to draw strings
 void Pong::drawString(string label) {
