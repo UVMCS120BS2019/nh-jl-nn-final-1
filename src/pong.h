@@ -1,13 +1,11 @@
 #ifndef PONG_H
 #define PONG_H
 
-#include "rect.h"
 #include "circle.h"
 #include "graphics.h"
 #include "shapes.h"
 #include "shapes.h"
 #include "Button.h"
-
 using namespace std;
 
 class Pong {
@@ -27,13 +25,12 @@ private:
 
 	bool shouldRestartRound;
 	bool userScoredLast;
+    int userScore;
+    int cpuScore;
 
 public:
 	const static int width = 500;
 	const static int height = 500;
-
-	int userScore;
-	int cpuScore;
 
 	Pong();
 
@@ -54,6 +51,8 @@ public:
 	void moveUp();
 
 	void timestep();
+    void displayScore();
+    void drawScore(string message, string message2, string userScore, string cpuScore);
 
 	void deflectBall();
 	

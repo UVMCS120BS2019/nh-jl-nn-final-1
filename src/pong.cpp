@@ -16,13 +16,7 @@ Pong::Pong() : box({1, 0, 0}, {240, 320}, 200, 50), button(box, "Play Again?") {
 }
 
 void Pong::drawStart() {
-    glColor3f(1.0,1.0,1.0);
-    glBegin(GL_QUADS);
-    glVertex2i(10,80);
-    glVertex2i(10,150);
-    glVertex2i(20,150);
-    glVertex2i(20,80);
-    glEnd();
+    drawString("Welcome to Pong!");
 }
 
 void Pong::drawGame() {
@@ -32,6 +26,8 @@ void Pong::drawGame() {
 	userPaddle.draw();
 	cpuPaddle.draw();
 	ball.draw();
+	timestep();
+	displayScore();
 }
 
 void Pong::drawEnd() {
@@ -114,11 +110,17 @@ void Pong::buttonClick() {
     button.click(setProgramState);
 }
 
-void Pong::moveDown(){
-    userPaddle;
+void Pong::moveDown() {
+    userPaddle.move(0, +10);
 }
 void Pong::moveUp() {
-    userPaddle;
+    userPaddle.move(0, -10);
+}
+
+void Pong::displayScore() {
+    string stringUser = to_string(userScore);
+    string stringCpu = to_string(cpuScore);
+    drawScore("User Score: ", "  CPU Score: ", stringUser, stringCpu);
 }
 
 bool Pong::roundIsOver() {
