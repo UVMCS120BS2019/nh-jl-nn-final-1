@@ -112,9 +112,9 @@ void Pong::buttonClick() {
     button.click(setProgramState);
 }
 
-void Pong::moveDown(){
-    userPaddle;
+void Pong::moveDown() {
+    userPaddle.move(0, -10);
 }
 void Pong::moveUp() {
-    userPaddle;
+    userPaddle.move(0, +10);
 }
