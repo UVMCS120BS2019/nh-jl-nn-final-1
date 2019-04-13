@@ -7,11 +7,6 @@
 #include "circle.h"
 #include "pong.h"
 #include "Button.h"
-
-
-
-
-
 using namespace std;
 
 GLdouble width, height;

@@ -104,7 +104,7 @@ void Pong::setButton(const Button &button) {
     Pong::button = button;
 }
 
-const Button &Pong::getButton() const {
+const Button& Pong::getButton() const {
     return button;
 }
 
