@@ -149,34 +149,39 @@ void cursor(int x, int y) {
 // state will be GLUT_UP or GLUT_DOWN
 ////////////// For play again button /////////////////////////
 void mouse(int button, int state, int x, int y) {
-    if (state == GLUT_DOWN &&
-        button == GLUT_LEFT_BUTTON &&
-        pong.getButton().isOverlapping(x, y)) {
-        pong.buttonPressDown();
-    } else {
-        pong.buttonRelease();
-    }
+	if (programState == state::end) {
+		if (state == GLUT_DOWN &&
+			button == GLUT_LEFT_BUTTON &&
+			pong.getButton().isOverlapping(x, y)) {
+			pong.buttonPressDown();
+		} else {
+			pong.buttonRelease();
+		}
 
-    if (state == GLUT_UP &&
-        button == GLUT_LEFT_BUTTON &&
-        pong.getButton().isOverlapping(x, y)) {
-        pong.buttonClick();
-    }
+		if (state == GLUT_UP &&
+			button == GLUT_LEFT_BUTTON &&
+			pong.getButton().isOverlapping(x, y)) {
+			pong.buttonClick();
+		}
+	}
 
-    if (state == GLUT_DOWN &&
-        button == GLUT_LEFT_BUTTON &&
-        pong.getButton2().isOverlapping(x, y)) {
-        pong.buttonPressDown2();
-    } else {
-        pong.buttonRelease2();
-    }
+	if (programState == state::start) {
 
-    if (state == GLUT_UP &&
-        button == GLUT_LEFT_BUTTON &&
-        pong.getButton2().isOverlapping(x, y)) {
-        pong.buttonClick2();
-    }
-    glutPostRedisplay();
+		if (state == GLUT_DOWN &&
+			button == GLUT_LEFT_BUTTON &&
+			pong.getButton2().isOverlapping(x, y)) {
+			pong.buttonPressDown2();
+		} else {
+			pong.buttonRelease2();
+		}
+
+		if (state == GLUT_UP &&
+			button == GLUT_LEFT_BUTTON &&
+			pong.getButton2().isOverlapping(x, y)) {
+			pong.buttonClick2();
+		}
+	}
+	glutPostRedisplay();
 }
 
 void timer(int dummy) {

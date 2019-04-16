@@ -7,6 +7,7 @@
 
 #include <string>
 #include <functional>
+#include "shapes.h"
 
 struct color {
     double red;
@@ -19,7 +20,7 @@ struct point {
     int y;
 };
 
-class Quad {
+class Quad : public Shape {
 private:
     color fill;
     point center;
@@ -51,7 +52,9 @@ public:
     void move(int deltaX, int deltaY);
     void resize(unsigned int width, unsigned int height);
 
-    void draw() const;
+    void draw() const override;
+	std::ostream& doprint(std::ostream& out) const override;
+
 };
 
 

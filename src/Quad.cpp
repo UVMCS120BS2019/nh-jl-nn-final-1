@@ -17,35 +17,37 @@ Quad::Quad() {
     height = 50;
 }
 
-Quad::Quad(color fill, point center, unsigned int width, unsigned int height) {
-    this->fill = fill;
+Quad::Quad(color fill, point center, unsigned int width, unsigned int height) : Shape() {
+	this->x = center.x;
+	this->y = center.y;
+	this->fill = fill;
     this->center = center;
     this->width = width;
     this->height = height;
 }
 
 int Quad::getCenterX() const {
-    return center.x;
+    return x;
 }
 
 int Quad::getLeftX() const {
-    return center.x - (width / 2);
+    return x - (width / 2);
 }
 
 int Quad::getRightX() const {
-    return center.x + (width / 2);
+    return x + (width / 2);
 }
 
 int Quad::getCenterY() const {
-    return center.y;
+    return y;
 }
 
 int Quad::getTopY() const {
-    return center.y - (height / 2);
+    return y - (height / 2);
 }
 
 int Quad::getBottomY() const {
-    return center.y + (height / 2);
+    return y + (height / 2);
 }
 
 point Quad::getCenter() const {
@@ -85,8 +87,8 @@ void Quad::setColor(color fill) {
 }
 
 void Quad::move(int deltaX, int deltaY) {
-    center.x += deltaX;
-    center.y += deltaY;
+    x += deltaX;
+    y += deltaY;
 }
 
 void Quad::resize(unsigned int width, unsigned int height) {
@@ -104,4 +106,9 @@ void Quad::draw() const {
     glVertex2i(getRightX(), getBottomY());
     glVertex2i(getLeftX(), getBottomY());
     glEnd();
+}
+
+std::ostream& Quad::doprint(std::ostream& out) const {
+	out << "Quad centered at " << x << "," << y;
+	return out;
 }

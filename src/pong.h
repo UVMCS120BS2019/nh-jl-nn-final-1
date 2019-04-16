@@ -9,6 +9,7 @@
 #include "Quad.h"
 #include "Button.h"
 #include "vec2d.h"
+#include "confetti.h"
 using namespace std;
 
 
@@ -40,6 +41,8 @@ private:
 	bool userScoredLast;
 	int userScore;
 	int cpuScore;
+
+	Confetti confetti;
 
 public:
 	const static int width = 500;

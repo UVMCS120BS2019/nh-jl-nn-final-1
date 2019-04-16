@@ -33,7 +33,7 @@ void Circle::draw() const {
     int triangleAmount = 30; //# of triangles used to draw circle
 
     GLfloat twicePi = 2.0f * M_PI;
-
+    glColor3f(fill.red, fill.green, fill.blue);
     glBegin(GL_TRIANGLE_FAN);
     glVertex2f(x, y); // center of circle
     for(i = 0; i <= triangleAmount; i++) {

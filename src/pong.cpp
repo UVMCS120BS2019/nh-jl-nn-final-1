@@ -1,9 +1,12 @@
 #include "pong.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "confetti.h"
 
-Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {240, 320}, 200, 50), button(box, "Play Again?"),
-                                            box2({1, 0, 0}, {240, 320}, 200, 50), button2(box, "Play"){
+Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {240, 220}, 200, 50),
+											button(box, "Play Again?"),
+                                            box2({1, 0, 0}, {240, 320}, 200, 50),
+											button2(box2, "Play") {
 	int centerY = height / 2;
 
 	int userPaddleX = paddleXOffset;
@@ -13,10 +16,10 @@ Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {240, 320}, 200, 50),
 	cpuPaddle =  Quad({1,1,1}, {cpuPaddleX, centerY}, paddleWidth, paddleHeight);
 	ball = Circle(width / 2, height / 2, ballRadius);
 
-    box = Quad({1, 0, 0}, {240, 320}, 200, 50);
-    button = Button(box, "Play Again?");
-    box2 = Quad({1, 0, 0}, {240, 320}, 200, 50);
-    button2 = Button(box2, "Play");
+    // box = Quad({1, 0, 0}, {240, 320}, 200, 50);
+    // button = Button(box, "Play Again?");
+    // box2 = Quad({1, 0, 0}, {240, 320}, 200, 50);
+    // button2 = Button(box2, "Play");
 	shouldRestartRound = true;
 
 	this->gameDelay = gameDelay;
@@ -37,19 +40,20 @@ void Pong::drawGame() {
 }
 
 void Pong::drawEnd() {
-    if (userScore > cpuScore) {
-        drawString("You have beat the Computer!");
-    }
-    if (userScore < cpuScore) {
-        drawString("You have lost to the Computer!");
-    }
+	if (userScore > cpuScore) {
+		drawString("You beat the Computer!");
+		confetti.draw();
+	}
+	if (userScore < cpuScore) {
+        drawString("You lost to the Computer!");
+	}
     if (userScore == cpuScore) {
-        drawString("You have tied the Computer!");
+        drawString("You tied the Computer!");
     }
 
     // Play again button
     button.draw();
-}
+	}
 
 void Pong::timestep() {
 
@@ -65,25 +69,27 @@ void Pong::timestep() {
 	// move cpu
 
 	double heightDifference = ball.getY() - cpuPaddle.getCenterY();
+
 	if (heightDifference < 0) {
-		cpuPaddle.move(0, max(heightDifference, -1.0 * Pong::MAX_CPU_VELOCITY));
-	} else {
-		cpuPaddle.move(0, min(heightDifference, 1.0 * Pong::MAX_CPU_VELOCITY));
-	}
+			cpuPaddle.move(0, max(heightDifference, -1.0 * Pong::MAX_CPU_VELOCITY));
+		} else {
+			cpuPaddle.move(0, min(heightDifference, 1.0 * Pong::MAX_CPU_VELOCITY));
+		}
+		
+	
 
+		ball.setX(ballX + ballVelocity.getX());
+		ball.setY(ballY + ballVelocity.getY());
 
-	ball.setX(ballX + ballVelocity.getX());
-	ball.setY(ballY + ballVelocity.getY());
-
-	if (ball.getLeftX() < 0) {
-		++cpuScore;
-		userScoredLast = false;
-		shouldRestartRound = true;
-	} else if (ball.getRightX() > width) {
-		++userScore;
-		userScoredLast = true;
-		shouldRestartRound = true;
-	}
+		if (ball.getLeftX() < 0) {
+				++cpuScore;
+				userScoredLast = false;
+				shouldRestartRound = true;
+			} else if (ball.getRightX() > width) {
+			++userScore;
+			userScoredLast = true;
+			shouldRestartRound = true;
+		}
 	
 
 }
@@ -234,7 +240,7 @@ bool Pong::isOver() {
 }
 
 void Pong::restartGame() {
-	userScore = 0;
+	userScore = 1;
 	cpuScore = 0;
 	shouldRestartRound = true;
 	userScoredLast = false;
