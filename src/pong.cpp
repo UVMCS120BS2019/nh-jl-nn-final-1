@@ -240,7 +240,7 @@ bool Pong::isOver() {
 }
 
 void Pong::restartGame() {
-	userScore = 1;
+	userScore = 0;
 	cpuScore = 0;
 	shouldRestartRound = true;
 	userScoredLast = false;
