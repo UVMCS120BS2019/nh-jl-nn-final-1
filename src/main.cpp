@@ -117,18 +117,6 @@ void keySpecialUpFunc(int key, int x, int y) {
 	glutPostRedisplay();
 }
 
-// void kbdS(int key, int x, int y) {
-//     // switch(key) {
-//     // case GLUT_KEY_DOWN:
-//     //     pong.moveDown();
-//     //     break;
-//     // case GLUT_KEY_UP:
-//     //     pong.moveUp();
-//     //     break;
-//     // }
-//     glutPostRedisplay();
-// }
-
 // For play again button
 void cursor(int x, int y) {
     if (pong.getButton().isOverlapping(x, y)) {
@@ -228,7 +216,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize((int)width, (int)height);
     glutInitWindowPosition(-100, 400); // Position the window's initial top-left corner
     /* create the window and store the handle to it */
-    wd = glutCreateWindow("Lots of Fun with Drawing!" /* title */ );
+    wd = glutCreateWindow("Game of Pong" /* title */ );
     
     // Register callback handler for window re-paint event
     glutDisplayFunc(display);
