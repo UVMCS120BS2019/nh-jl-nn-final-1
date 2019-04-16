@@ -26,7 +26,6 @@ void Button::draw() {
 
 /* Returns true if the coordinate is inside the box */
 bool Button::isOverlapping(int x, int y) const {
-    // TODO: Implement
 	return x > box.getLeftX() && x < box.getRightX() && y > box.getTopY() && y < box.getBottomY();
 }
 
