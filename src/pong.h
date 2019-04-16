@@ -1,8 +1,8 @@
 #ifndef PONG_H
 #define PONG_H
 
-
-#include "math.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include "circle.h"
 #include "graphics.h"
 #include "shapes.h"
