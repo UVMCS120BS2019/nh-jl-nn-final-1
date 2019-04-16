@@ -1,4 +1,5 @@
 #include "vec2d.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 Vec2d::Vec2d() {
