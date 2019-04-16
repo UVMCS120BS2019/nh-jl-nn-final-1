@@ -16,17 +16,23 @@ using namespace std;
 
 GLdouble width, height;
 int wd;
+int lastTick;
+int gameDelay;
 
-Pong pong;
+Pong pong(&gameDelay, &lastTick);
+
+// keep track of whether each key is pressed down
+bool keyState[256] = {false};
 
 // 0 for start screen, 1 for game, 2 for end
 enum state {start, game, end};
 state programState;
 
-int lastTick;
+
+
 
 void setProgramState() {
-    programState = state::start;
+	programState = state::start;
 }
 
 void init() {
@@ -61,15 +67,19 @@ void display() {
 	case state::start: {
 		pong.drawStart();
             break;
-        }
+	}
 	case state::game: {
 		pong.drawGame();
-            break;
-        }
+		// if we reach max score, go to end screen
+		if (pong.isOver()) {
+			programState = state::end;
+		}
+		break;
+	}
 	case state::end: {
 		pong.drawEnd();
             break;
-        }
+	}
     }
 	glFlush();  // Render now
 	timer(0);
@@ -90,22 +100,34 @@ void kbd(unsigned char key, int x, int y)
 		} else {
 			programState = state::start;
 		}
-
 	}
 	glutPostRedisplay();
 }
 
-void kbdS(int key, int x, int y) {
-    switch(key) {
-    case GLUT_KEY_DOWN:
-        pong.moveDown();
-        break;
-    case GLUT_KEY_UP:
-        pong.moveUp();
-        break;
-    }
-    glutPostRedisplay();
+
+
+// https://cboard.cprogramming.com/game-programming/80515-glut-keyboard-reaction-help.html
+void keySpecialDownFunc(int key, int x, int y) {
+	keyState[key] = true;
+	glutPostRedisplay();
 }
+
+void keySpecialUpFunc(int key, int x, int y) {
+	keyState[key] = false;
+	glutPostRedisplay();
+}
+
+// void kbdS(int key, int x, int y) {
+//     // switch(key) {
+//     // case GLUT_KEY_DOWN:
+//     //     pong.moveDown();
+//     //     break;
+//     // case GLUT_KEY_UP:
+//     //     pong.moveUp();
+//     //     break;
+//     // }
+//     glutPostRedisplay();
+// }
 
 // For play again button
 void cursor(int x, int y) {
@@ -143,10 +165,22 @@ void timer(int dummy) {
 		return;
 	}
 	while (tick > lastTick) {
-		if (programState == 1) {
-			pong.timestep();
+		
+		if (programState == state::game) {
+			// move up and down
+			if (keyState[GLUT_KEY_UP]) {
+				pong.moveUp();
+			}
+			if (keyState[GLUT_KEY_DOWN]) {
+				pong.moveDown();
+			}
+			if (tick > gameDelay) {
+				pong.timestep();
+			}
 		}
+
 		lastTick += 1000 / 45;
+		
 	}
 	glutPostRedisplay();
 }
@@ -176,13 +210,26 @@ int main(int argc, char** argv) {
     
     // Our own OpenGL initialization
     initGL();
-    
+
+	
     // register keyboard press event processing function
     // works for numbers, letters, spacebar, etc.
     glutKeyboardFunc(kbd);
+
+	
+	// register pressing down keys and releasing
+	glutSpecialFunc(keySpecialDownFunc);
+	glutSpecialUpFunc(keySpecialUpFunc);
+
+
+
+	// don't repeat key presses
+	glutIgnoreKeyRepeat(true);
+
+
     
-    // register special event: function keys, arrows, etc.
-    glutSpecialFunc(kbdS);
+	// register special event: function keys, arrows, etc.
+
     
     // handles mouse movement
     glutPassiveMotionFunc(cursor);

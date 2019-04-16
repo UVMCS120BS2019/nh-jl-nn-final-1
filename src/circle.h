@@ -8,6 +8,7 @@
 #include "shapes.h"
 #include <iostream>
 #include "graphics.h"
+#include "vec2d.h"
 
 class Circle : public Shape {
 
