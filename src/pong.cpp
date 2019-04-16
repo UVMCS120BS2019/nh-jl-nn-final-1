@@ -1,7 +1,9 @@
 #include "pong.h"
+#define _USE_MATH_DEFINES
 #include <math.h>
 
-Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {240, 320}, 200, 50), button(box, "Play Again?") {
+Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {240, 320}, 200, 50), button(box, "Play Again?"),
+                                            box2({1, 0, 0}, {240, 320}, 200, 50), button2(box, "Play"){
 	int centerY = height / 2;
 
 	int userPaddleX = paddleXOffset;
@@ -13,6 +15,8 @@ Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {240, 320}, 200, 50),
 
     box = Quad({1, 0, 0}, {240, 320}, 200, 50);
     button = Button(box, "Play Again?");
+    box2 = Quad({1, 0, 0}, {240, 320}, 200, 50);
+    button2 = Button(box2, "Play");
 	shouldRestartRound = true;
 
 	this->gameDelay = gameDelay;
@@ -21,6 +25,7 @@ Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {240, 320}, 200, 50),
 
 void Pong::drawStart() {
     drawString("Welcome to Pong!");
+    button2.draw();
 }
 
 void Pong::drawGame() {
@@ -146,6 +151,30 @@ void Pong::buttonPressDown() {
 }
 
 void Pong::buttonClick() {
+    button.click(setProgramState);
+}
+
+void Pong::setButton2(const Button &button2) {
+    Pong::button = button2;
+}
+
+const Button& Pong::getButton2() const {
+    return button2;
+}
+
+void Pong::buttonHover2() {
+    button2.hover();
+}
+
+void Pong::buttonRelease2() {
+    button.release();
+}
+
+void Pong::buttonPressDown2() {
+    button.pressDown();
+}
+
+void Pong::buttonClick2() {
     button.click(setProgramState);
 }
 

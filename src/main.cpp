@@ -131,6 +131,12 @@ void cursor(int x, int y) {
     } else {
         pong.buttonRelease();
     }
+
+    if (pong.getButton2().isOverlapping(x, y)) {
+        pong.buttonHover2();
+    } else {
+        pong.buttonRelease2();
+    }
     glutPostRedisplay();
 }
 
@@ -150,6 +156,20 @@ void mouse(int button, int state, int x, int y) {
         button == GLUT_LEFT_BUTTON &&
         pong.getButton().isOverlapping(x, y)) {
         pong.buttonClick();
+    }
+
+    if (state == GLUT_DOWN &&
+        button == GLUT_LEFT_BUTTON &&
+        pong.getButton2().isOverlapping(x, y)) {
+        pong.buttonPressDown2();
+    } else {
+        pong.buttonRelease2();
+    }
+
+    if (state == GLUT_UP &&
+        button == GLUT_LEFT_BUTTON &&
+        pong.getButton2().isOverlapping(x, y)) {
+        pong.buttonClick2();
     }
     glutPostRedisplay();
 }

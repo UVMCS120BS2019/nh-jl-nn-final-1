@@ -28,7 +28,9 @@ private:
 	int* lastTick;
 	
 	Quad box;
+	Quad box2;
 	Button button;
+	Button button2;
 	Quad userPaddle;
 	Quad cpuPaddle;
 	Circle ball;
@@ -47,11 +49,17 @@ public:
 
 	//////// These functions below are used to make play again button work
 	void setButton(const Button &button);
+	void setButton2(const Button &button1);
 	const Button &getButton() const;
 	void buttonHover();
 	void buttonRelease();
 	void buttonPressDown();
     void buttonClick();
+    const Button &getButton2() const;
+    void buttonHover2();
+    void buttonRelease2();
+    void buttonPressDown2();
+    void buttonClick2();
     /**************************************/
 
     void drawStart();
