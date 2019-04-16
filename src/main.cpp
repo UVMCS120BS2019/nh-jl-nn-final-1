@@ -26,8 +26,13 @@ state programState;
 
 
 
-void setProgramState() {
+void setProgramStateStart() {
 	programState = state::start;
+	pong.restartGame();
+}
+
+void setProgramStateGame() {
+	programState = state::game;
 }
 
 void init() {

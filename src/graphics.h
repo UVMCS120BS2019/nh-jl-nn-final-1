@@ -15,7 +15,8 @@
 #endif
 
 // Function for play again button
-void setProgramState();
+void setProgramStateStart();
+void setProgramStateGame();
 
 // Program initialization NOT OpenGL/GLUT dependent,
 // as we haven't created a GLUT window yet

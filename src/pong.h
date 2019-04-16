@@ -81,6 +81,7 @@ public:
 
 	// whether the game is over or not
 	bool isOver();
+	void restartGame();
 };
 
 

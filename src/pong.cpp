@@ -151,7 +151,7 @@ void Pong::buttonPressDown() {
 }
 
 void Pong::buttonClick() {
-    button.click(setProgramState);
+    button.click(setProgramStateStart);
 }
 
 void Pong::setButton2(const Button &button2) {
@@ -167,15 +167,15 @@ void Pong::buttonHover2() {
 }
 
 void Pong::buttonRelease2() {
-    button.release();
+    button2.release();
 }
 
 void Pong::buttonPressDown2() {
-    button.pressDown();
+    button2.pressDown();
 }
 
 void Pong::buttonClick2() {
-    button.click(setProgramState);
+	button2.click(setProgramStateGame);
 }
 
 void Pong::moveDown() {
@@ -231,4 +231,11 @@ void Pong::drawScore(string message, string message2, string userScore, string c
 
 bool Pong::isOver() {
 	return userScore >= Pong::WINNING_SCORE || cpuScore >= Pong::WINNING_SCORE;
+}
+
+void Pong::restartGame() {
+	userScore = 0;
+	cpuScore = 0;
+	shouldRestartRound = true;
+	userScoredLast = false;
 }
