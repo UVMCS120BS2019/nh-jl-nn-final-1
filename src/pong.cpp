@@ -5,7 +5,7 @@
 
 Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {350, 220}, 200, 50),
 											button(box, "Play Again?"),
-                                            box2({1, 0, 0}, {240, 320}, 200, 50),
+                                            box2({1, 0, 0}, {330, 320}, 200, 50),
 											button2(box2, "Play") {
 	int centerY = height / 2;
 
@@ -15,11 +15,7 @@ Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {350, 220}, 200, 50),
 	userPaddle = Quad({1,1,1}, {userPaddleX, centerY}, paddleWidth, paddleHeight);
 	cpuPaddle =  Quad({1,1,1}, {cpuPaddleX, centerY}, paddleWidth, paddleHeight);
 	ball = Circle(width / 2, height / 2, ballRadius);
-
-    // box = Quad({1, 0, 0}, {240, 320}, 200, 50);
-    // button = Button(box, "Play Again?");
-    // box2 = Quad({1, 0, 0}, {240, 320}, 200, 50);
-    // button2 = Button(box2, "Play");
+	
 	shouldRestartRound = true;
 
 	this->gameDelay = gameDelay;
@@ -119,7 +115,7 @@ void Pong::deflectBall() {
 // Function to draw strings
 void Pong::drawString(string label) {
     glColor3f(1.0f, 0.0f, 0.0f);
-    glRasterPos2i(120, 150);
+    glRasterPos2i(250, 150);
     for (char &letter : label)  {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
     }
@@ -209,7 +205,7 @@ void Pong::startRound() {
 
 void Pong::drawScore(string message, string message2, string userScore, string cpuScore) {
     glColor3f(1.0f, 0.0f, 0.0f);
-    glRasterPos2i(120, 30);
+    glRasterPos2i(225, 30);
     for (char &letter : message) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
     }

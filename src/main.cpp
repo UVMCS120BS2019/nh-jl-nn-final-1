@@ -218,7 +218,7 @@ int main(int argc, char** argv) {
     
     // Our own OpenGL initialization
     initGL();
-    
+
     // register keyboard press event processing function
     // works for numbers, letters, spacebar, etc.
     glutKeyboardFunc(kbd);
