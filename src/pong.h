@@ -45,7 +45,7 @@ private:
 	Confetti confetti;
 
 public:
-	const static int width = 500;
+	const static int width = 700;
 	const static int height = 500;
 
 	Pong(int* gameDelay, int* lastTick);

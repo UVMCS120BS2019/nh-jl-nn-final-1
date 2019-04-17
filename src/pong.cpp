@@ -3,7 +3,7 @@
 #include <math.h>
 #include "confetti.h"
 
-Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {240, 220}, 200, 50),
+Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {350, 220}, 200, 50),
 											button(box, "Play Again?"),
                                             box2({1, 0, 0}, {240, 320}, 200, 50),
 											button2(box2, "Play") {
