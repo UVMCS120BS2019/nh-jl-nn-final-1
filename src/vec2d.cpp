@@ -30,12 +30,9 @@ Vec2d& Vec2d::operator*=(const Vec2d& rhs) {
 	return *this;
 }
 
-
 void Vec2d::multiplyMagnitude(double factor) {
 	setMagnitude(getMagnitude() * factor);
 }
-
-
 
 void Vec2d::set(Vec2d v) {
 	x = v.x;

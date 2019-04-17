@@ -23,9 +23,6 @@ bool keyState[256] = {false};
 enum state {start, game, end};
 state programState;
 
-
-
-
 void setProgramStateStart() {
 	programState = state::start;
 	pong.restartGame();
@@ -64,22 +61,22 @@ void display() {
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     switch(programState) {
-	case state::start: {
-		pong.drawStart();
+        case state::start: {
+            pong.drawStart();
             break;
-	}
-	case state::game: {
-		pong.drawGame();
-		// if we reach max score, go to end screen
-		if (pong.isOver()) {
-			programState = state::end;
-		}
-		break;
-	}
-	case state::end: {
-		pong.drawEnd();
+        }
+        case state::game: {
+            pong.drawGame();
+            // if we reach max score, go to end screen
+            if (pong.isOver()) {
+                programState = state::end;
+            }
             break;
-	}
+        }
+        case state::end: {
+            pong.drawEnd();
+            break;
+        }
     }
 	glFlush();  // Render now
 	timer(0);
@@ -103,8 +100,6 @@ void kbd(unsigned char key, int x, int y)
 	}
 	glutPostRedisplay();
 }
-
-
 
 // https://cboard.cprogramming.com/game-programming/80515-glut-keyboard-reaction-help.html
 void keySpecialDownFunc(int key, int x, int y) {
@@ -223,27 +218,20 @@ int main(int argc, char** argv) {
     
     // Our own OpenGL initialization
     initGL();
-
-	
+    
     // register keyboard press event processing function
     // works for numbers, letters, spacebar, etc.
     glutKeyboardFunc(kbd);
 
-	
 	// register pressing down keys and releasing
 	glutSpecialFunc(keySpecialDownFunc);
 	glutSpecialUpFunc(keySpecialUpFunc);
 
-
-
 	// don't repeat key presses
 	glutIgnoreKeyRepeat(true);
 
-
-    
 	// register special event: function keys, arrows, etc.
 
-    
     // handles mouse movement
     glutPassiveMotionFunc(cursor);
     

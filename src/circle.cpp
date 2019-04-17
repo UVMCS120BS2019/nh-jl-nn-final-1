@@ -63,8 +63,6 @@ int Circle::getCenterY() const {
 	return y;
 }
 
-
-
 std::ostream& Circle::doprint(std::ostream& out) const {
     out << "circle centered at (" << x << "," << y << "); radius: " << radius;
     return out;

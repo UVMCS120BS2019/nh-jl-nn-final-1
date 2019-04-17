@@ -60,7 +60,7 @@ void Pong::timestep() {
 	if (shouldRestartRound) {
 		startRound();
 	}
-	
+
 	int ballX = ball.getX();
 	int ballY = ball.getY();
 
@@ -71,30 +71,24 @@ void Pong::timestep() {
 	double heightDifference = ball.getY() - cpuPaddle.getCenterY();
 
 	if (heightDifference < 0) {
-			cpuPaddle.move(0, max(heightDifference, -1.0 * Pong::MAX_CPU_VELOCITY));
-		} else {
-			cpuPaddle.move(0, min(heightDifference, 1.0 * Pong::MAX_CPU_VELOCITY));
-		}
-		
-	
+	    cpuPaddle.move(0, max(heightDifference, -1.0 * Pong::MAX_CPU_VELOCITY));
+	} else {
+	    cpuPaddle.move(0, min(heightDifference, 1.0 * Pong::MAX_CPU_VELOCITY));
+	}
 
-		ball.setX(ballX + ballVelocity.getX());
-		ball.setY(ballY + ballVelocity.getY());
+	ball.setX(ballX + ballVelocity.getX());
+	ball.setY(ballY + ballVelocity.getY());
 
-		if (ball.getLeftX() < 0) {
-				++cpuScore;
-				userScoredLast = false;
-				shouldRestartRound = true;
-			} else if (ball.getRightX() > width) {
-			++userScore;
-			userScoredLast = true;
-			shouldRestartRound = true;
-		}
-	
-
+	if (ball.getLeftX() < 0) {
+	    ++cpuScore;
+		userScoredLast = false;
+		shouldRestartRound = true;
+	} else if (ball.getRightX() > width) {
+		++userScore;
+		userScoredLast = true;
+		shouldRestartRound = true;
+	}
 }
-
-
 
 void Pong::deflectBall() {
 	double power = 0;
@@ -120,10 +114,7 @@ void Pong::deflectBall() {
 	} else if (ball.getTopY() < 0 && ballVelocity.getY() < 0) {
 		ballVelocity *= Vec2d({1, -1});
 	}
-
-	
 }
-
 
 // Function to draw strings
 void Pong::drawString(string label) {
