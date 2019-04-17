@@ -15,7 +15,7 @@ Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {350, 220}, 200, 50),
 	userPaddle = Quad({1,1,1}, {userPaddleX, centerY}, paddleWidth, paddleHeight);
 	cpuPaddle =  Quad({1,1,1}, {cpuPaddleX, centerY}, paddleWidth, paddleHeight);
 	ball = Circle(width / 2, height / 2, ballRadius);
-	
+
 	shouldRestartRound = true;
 
 	this->gameDelay = gameDelay;
