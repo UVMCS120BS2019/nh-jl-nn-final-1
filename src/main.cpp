@@ -17,17 +17,21 @@ int gameDelay;
 Pong pong(&gameDelay, &lastTick);
 
 // keep track of whether each key is pressed down
+// used to keep track of arrow keys, so that we don't have to deal
+// with key repeat when moving up and down
 bool keyState[256] = {false};
 
-// 0 for start screen, 1 for game, 2 for end
+// for storing what screen we're on
 enum state {start, game, end};
 state programState;
 
+// go to start screen
 void setProgramStateStart() {
 	programState = state::start;
 	pong.restartGame();
 }
 
+// go to game screen
 void setProgramStateGame() {
 	programState = state::game;
 }
@@ -36,7 +40,9 @@ void init() {
 	width = Pong::width;
 	height = Pong::height;
 	lastTick = 0;
-	// start high so that ball doesn't move until after delay (gets reset to reasonable level by pong.startRound())
+	// start high so that ball doesn't move until after delay (gets
+	// reset to the correct level by pong.startRound(), this is just
+	// to make sure it doesn't move before that gets set)
 	gameDelay = 10000;
 }
 
@@ -62,53 +68,64 @@ void display() {
     
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	// decided what to display
     switch(programState) {
-        case state::start: {
-            pong.drawStart();
-            break;
-        }
-        case state::game: {
-            pong.drawGame();
-            // if we reach max score, go to end screen
-            if (pong.isOver()) {
-                programState = state::end;
-            }
-            break;
-        }
-        case state::end: {
-            pong.drawEnd();
-            break;
-        }
+	case state::start: {
+		pong.drawStart();
+		break;
+	}
+	case state::game: {
+		pong.drawGame();
+		// if we reach max score, go to end screen
+		if (pong.isOver()) {
+			programState = state::end;
+		}
+		break;
+	}
+	case state::end: {
+		pong.drawEnd();
+		break;
+	}
     }
 	glFlush();  // Render now
-	timer(0);
+	timer(0); // start timer to redraw
 }
 
 // http://www.theasciicode.com.ar/ascii-control-characters/escape-ascii-code-27.html
+// handles escape to end game
 void kbd(unsigned char key, int x, int y)
 {
     // escape
     if (key == 27) {
         glutDestroyWindow(wd);
         exit(0);
-    } else if (key == 97) {
-		if (programState == state::start) {
-			programState = state::game;			
-		} else if (programState == state::game) {
-			programState = state::end;
-		} else {
-			programState = state::start;
-		}
-	}
+    }
+	
+	// uncomment to allow using 'a' to manually switch between screens
+	// else if (key == 97) {
+	// 	if (programState == state::start) {
+	// 		programState = state::game;			
+	// 	} else if (programState == state::game) {
+	// 		programState = state::end;
+	// 	} else {
+	// 		programState = state::start;
+	// 	}
+	// }
 	glutPostRedisplay();
 }
 
+
+
 // https://cboard.cprogramming.com/game-programming/80515-glut-keyboard-reaction-help.html
+// method found from link above. instead of reacting when a key is
+// pressed, we flip a bool to true when it is initially pressed, and
+// when we detect that it's released, we set that bool back to false.
+// Each timestep, we can check to see whether that key is pressed
+// down, and act accordingly
 void keySpecialDownFunc(int key, int x, int y) {
 	keyState[key] = true;
 	glutPostRedisplay();
 }
-
 void keySpecialUpFunc(int key, int x, int y) {
 	keyState[key] = false;
 	glutPostRedisplay();
@@ -132,24 +149,8 @@ void cursor(int x, int y) {
 
 // button will be GLUT_LEFT_BUTTON or GLUT_RIGHT_BUTTON
 // state will be GLUT_UP or GLUT_DOWN
-////////////// For play again button /////////////////////////
 void mouse(int button, int state, int x, int y) {
-	if (programState == state::end) {
-		if (state == GLUT_DOWN &&
-			button == GLUT_LEFT_BUTTON &&
-			pong.getPlayAgainButton().isOverlapping(x, y)) {
-			pong.playAgainButtonPressDown();
-		} else {
-			pong.playAgainButtonRelease();
-		}
-
-		if (state == GLUT_UP &&
-			button == GLUT_LEFT_BUTTON &&
-			pong.getPlayAgainButton().isOverlapping(x, y)) {
-			pong.playAgainButtonClick();
-		}
-	}
-
+	// start button
 	if (programState == state::start) {
 
 		if (state == GLUT_DOWN &&
@@ -166,16 +167,43 @@ void mouse(int button, int state, int x, int y) {
 			pong.startButtonClick();
 		}
 	}
+
+	// play again button
+	if (programState == state::end) {
+		if (state == GLUT_DOWN &&
+			button == GLUT_LEFT_BUTTON &&
+			pong.getPlayAgainButton().isOverlapping(x, y)) {
+			pong.playAgainButtonPressDown();
+		} else {
+			pong.playAgainButtonRelease();
+		}
+
+		if (state == GLUT_UP &&
+			button == GLUT_LEFT_BUTTON &&
+			pong.getPlayAgainButton().isOverlapping(x, y)) {
+			pong.playAgainButtonClick();
+		}
+	}
+
 	glutPostRedisplay();
 }
 
+// https://gamedev.stackexchange.com/questions/1589/when-should-i-use-a-fixed-or-variable-time-step
+// modified a bit so that we have constant time instead of relying on
+// glut's built in timer, we effectively create our own glut can
+// repaint the window as often as it wants, but we determine when the
+// game physics get updated. This prevents inconsistent game speeds.
 void timer(int dummy) {
+	// get when last tick was
 	int tick = glutGet(GLUT_ELAPSED_TIME);
+
+	// if it's not time to move everything, then don't do anything
 	if (tick < lastTick) {
 		return;
 	}
+	// while we're "behind" tick until we're ahead again
 	while (tick > lastTick) {
-		
+		// make sure we're in the game, and then allow user to move and game to go
 		if (programState == state::game) {
 			// move up and down
 			if (keyState[GLUT_KEY_UP]) {
@@ -184,17 +212,22 @@ void timer(int dummy) {
 			if (keyState[GLUT_KEY_DOWN]) {
 				pong.moveDown();
 			}
+			// additional delay to allow for delay between game rounds
 			if (tick > gameDelay) {
 				pong.timestep();
 			}
 		}
 
+		// target 45 fps, and wait for us to get there
 		lastTick += 1000 / 45;
 		
 	}
+	// repaint window
 	glutPostRedisplay();
 }
 
+
+// dummy function to call display from glut's timer
 void callDisplay(int dummy) {
 	display();
 	glutPostRedisplay();
@@ -225,14 +258,12 @@ int main(int argc, char** argv) {
     // works for numbers, letters, spacebar, etc.
     glutKeyboardFunc(kbd);
 
-	// register pressing down keys and releasing
+	// register pressing down and releasing special keys
 	glutSpecialFunc(keySpecialDownFunc);
 	glutSpecialUpFunc(keySpecialUpFunc);
 
 	// don't repeat key presses
 	glutIgnoreKeyRepeat(true);
-
-	// register special event: function keys, arrows, etc.
 
     // handles mouse movement
     glutPassiveMotionFunc(cursor);
@@ -240,7 +271,9 @@ int main(int argc, char** argv) {
     // handles mouse click
     glutMouseFunc(mouse);
     
-    // handles timer
+    // handles timer (we use our own which is called from display so
+    // we just use callDisplay to allow us to call the display
+    // function with an argument)
     glutTimerFunc(0, callDisplay, 0);
 
 	// Enter the event-processing loop
