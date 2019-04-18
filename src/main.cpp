@@ -15,6 +15,7 @@ int lastTick;
 int gameDelay;
 
 Pong pong(&gameDelay, &lastTick);
+Confetti confetti;
 
 // keep track of whether each key is pressed down
 // used to keep track of arrow keys, so that we don't have to deal
@@ -43,7 +44,10 @@ void init() {
 	// start high so that ball doesn't move until after delay (gets
 	// reset to the correct level by pong.startRound(), this is just
 	// to make sure it doesn't move before that gets set)
-	gameDelay = 10000;
+	gameDelay = 1000;
+
+	// set random seed
+	srand (time(NULL));
 }
 
 /* Initialize OpenGL Graphics */
@@ -84,6 +88,9 @@ void display() {
 	}
 	case state::end: {
 		pong.drawEnd();
+		if (pong.userWon()) {
+			confetti.draw();
+		}
 		break;
 	}
     }
@@ -216,6 +223,8 @@ void timer(int dummy) {
 			if (tick > gameDelay) {
 				pong.timestep();
 			}
+		} else if (programState == state::end && pong.userWon()) {
+			confetti.timestep();
 		}
 
 		// target 45 fps, and wait for us to get there
@@ -231,7 +240,7 @@ void timer(int dummy) {
 void callDisplay(int dummy) {
 	display();
 	glutPostRedisplay();
-	glutTimerFunc(0, callDisplay, 0);
+	glutTimerFunc(10, callDisplay, 10);
 }
 
 /* Main function: GLUT runs as a console application starting at main()  */
@@ -254,7 +263,7 @@ int main(int argc, char** argv) {
     // Our own OpenGL initialization
     initGL();
 
-    // register keyboard press event processing function
+	// register keyboard press event processing function
     // works for numbers, letters, spacebar, etc.
     glutKeyboardFunc(kbd);
 
@@ -274,7 +283,7 @@ int main(int argc, char** argv) {
     // handles timer (we use our own which is called from display so
     // we just use callDisplay to allow us to call the display
     // function with an argument)
-    glutTimerFunc(0, callDisplay, 0);
+    glutTimerFunc(10, callDisplay, 10);
 
 	// Enter the event-processing loop
     glutMainLoop();

@@ -24,8 +24,6 @@ void Confetti::draw() {
 	for (const auto& p: confetti) {
 		p->draw();
 	}
-	// move it all down
-	timestep();
 }
 
 void Confetti::spawnConfetti() {
@@ -52,8 +50,8 @@ void Confetti::spawnConfetti() {
 void Confetti::timestep() {
 	// for every piece of confetti
 	for (auto &p : confetti) {
-		// move it down one and maybe to the side
-		int deltaY = 1;
+		// move it down two and maybe to the side
+		int deltaY = 2;
 		int deltaX = (rand() % (int) 3) * pow(-1, rand() % 20);
 		p->setX(p->getX() + deltaX);
 		p->setY(p->getY() + deltaY);

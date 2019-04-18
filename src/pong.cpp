@@ -5,7 +5,7 @@
 
 Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {350, 220}, 200, 50),
 											playAgainButton(box, "Play Again?"),
-                                            box2({1, 0, 0}, {330, 320}, 200, 50),
+                                            box2({1, 0, 0}, {340, 320}, 200, 50),
 											startButton(box2, "Play") {
 	// center height of screen
 	int centerY = height / 2;
@@ -95,8 +95,9 @@ void Pong::deflectBall() {
 		angle = power * MAX_ANGLE;
 		ballVelocity.setAngle(M_PI + angle);
 
-		// ball goes a little faster after every hit
-		ballVelocity.multiplyMagnitude(MAGNITUDE_MULTIPLIER);
+		// ball goes a little faster after every hit, but don't let it get beyond max magnitude
+		ballVelocity.setMagnitude(min(ballVelocity.getMagnitude() * MAGNITUDE_MULTIPLIER,
+									  (double) Pong::MAX_MAGNITUDE));
 
 		// if the user hits it
 	} else if (ball.getLeftX() < userPaddle.getRightX() && userPaddle.getTopY() < ball.getBottomY() && userPaddle.getBottomY() > ball.getTopY() ) {
@@ -108,8 +109,9 @@ void Pong::deflectBall() {
 		angle = power * MAX_ANGLE;
 		ballVelocity.setAngle(angle);
 
-		// ball goes a little faster after every hit
-		ballVelocity.multiplyMagnitude(MAGNITUDE_MULTIPLIER);
+		// ball goes a little faster after every hit, but don't let it get beyond max magnitude
+		ballVelocity.setMagnitude(min(ballVelocity.getMagnitude() * MAGNITUDE_MULTIPLIER,
+									  (double) Pong::MAX_MAGNITUDE));
 
 		// if ball hits top or bottom of screen
 	} else if (ball.getBottomY() > height && ballVelocity.getY() > 0) {
@@ -130,9 +132,9 @@ void Pong::startRound() {
 	
 	// serve the ball to whoever didn't last score
 	if (userScoredLast) {
-		ballVelocity.set(Vec2d({4, rand() % 2 + 3}));	
+		ballVelocity.set(Vec2d({5, (rand() % 30 / 10.0) * pow(-1, rand() % 2 + 1)}));	
 	} else {
-		ballVelocity.set(Vec2d({-4, rand() % 2 + 3}));
+		ballVelocity.set(Vec2d({-5, (rand() % 30 / 10.0) * pow(-1, rand() % 2 + 1)}));
 	}
 	// wait 3 seconds
 	*gameDelay = *lastTick + 3000;
@@ -141,6 +143,10 @@ void Pong::startRound() {
 // check to see if anyone's exceeded max points
 bool Pong::isOver() {
 	return userScore >= Pong::WINNING_SCORE || cpuScore >= Pong::WINNING_SCORE;
+}
+
+bool Pong::userWon() {
+	return userScore > cpuScore;
 }
 
 void Pong::restartGame() {
@@ -159,8 +165,14 @@ void Pong::restartGame() {
 // ====================
 
 void Pong::drawStart() {
-    drawString("Welcome to Pong!");
-    startButton.draw();
+    drawString("Welcome to Pong!", 270, 150);
+	glColor3f(1.0f, 0.0f, 0.0f);
+    glRasterPos2i(75, 100);
+	drawString("Click Play, and use the up and down arrow keys to move.", 100, 200);
+	
+	drawString("Press escape at any time to end.", 210, 220);
+	
+	startButton.draw();
 }
 
 void Pong::drawGame() {
@@ -172,14 +184,13 @@ void Pong::drawGame() {
 
 void Pong::drawEnd() {
 	if (userScore > cpuScore) {
-		drawString("You beat the Computer!");
-		confetti.draw();
+		drawString("You beat the Computer!", 250, 150);
 	}
 	if (userScore < cpuScore) {
-        drawString("You lost to the Computer!");
+        drawString("You lost to the Computer!", 235, 150);
 	}
     if (userScore == cpuScore) {
-        drawString("You tied the Computer!");
+        drawString("You tied the Computer!", 255, 150);
     }
 
     // Play again button
@@ -216,12 +227,13 @@ void Pong::drawScore(string message, string message2, string userScore, string c
 }
 
 // Function to draw strings
-void Pong::drawString(string label) {
+void Pong::drawString(string label, int x, int y) {
     glColor3f(1.0f, 0.0f, 0.0f);
-    glRasterPos2i(250, 150);
+    glRasterPos2i(x, y);
     for (char &letter : label)  {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
     }
+	glEnd();
 }
 
 

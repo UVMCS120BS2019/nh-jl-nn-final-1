@@ -26,6 +26,7 @@ private:
 	const static int MAX_CPU_VELOCITY = 5;
 	const static int WINNING_SCORE = 3;
 	const double MAGNITUDE_MULTIPLIER = 1.1; // couldn't make static (compiler error)
+	const static int MAX_MAGNITUDE = 30;
 	
 	int* gameDelay;
 	int* lastTick;
@@ -82,6 +83,9 @@ public:
 	// whether the game is over or not (score greater than max)
 	bool isOver();
 
+	// return whether or not the user won
+	bool userWon();
+	
 	// reset scores to 0 and restart round
 	void restartGame();
 
@@ -104,7 +108,7 @@ public:
 
 
 	// display a string on the screen
-    void drawString(string label);
+    void drawString(string label, int x, int y);
 
 
 	// ==================
