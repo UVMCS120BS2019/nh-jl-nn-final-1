@@ -4,31 +4,166 @@
 #include "confetti.h"
 
 Pong::Pong(int* gameDelay, int* lastTick) : box({1, 0, 0}, {350, 220}, 200, 50),
-											button(box, "Play Again?"),
+											playAgainButton(box, "Play Again?"),
                                             box2({1, 0, 0}, {330, 320}, 200, 50),
-											button2(box2, "Play") {
+											startButton(box2, "Play") {
+	// center height of screen
 	int centerY = height / 2;
 
+	// where to position user's and cpu's paddles
 	int userPaddleX = paddleXOffset;
 	int cpuPaddleX = width - paddleXOffset;
-	
+
+	// create paddles and ball
 	userPaddle = Quad({1,1,1}, {userPaddleX, centerY}, paddleWidth, paddleHeight);
 	cpuPaddle =  Quad({1,1,1}, {cpuPaddleX, centerY}, paddleWidth, paddleHeight);
 	ball = Circle(width / 2, height / 2, ballRadius);
 
+	// start game with a clean round
 	shouldRestartRound = true;
 
+	// set up int pointers to be able to make a delay when starting new rounds
 	this->gameDelay = gameDelay;
 	this->lastTick = lastTick;
 }
 
+
+void Pong::moveDown() {
+    if(userPaddle.getBottomY() < height) {
+        userPaddle.move(0, +10);
+    }
+}
+
+void Pong::moveUp() {
+    if(userPaddle.getTopY() > 0) {
+        userPaddle.move(0, -10);
+    }
+}
+
+
+void Pong::timestep() {
+	if (shouldRestartRound) {
+		startRound();
+	}
+
+	// move cpu
+	double heightDifference = ball.getY() - cpuPaddle.getCenterY();
+	if (heightDifference < 0) {
+	    cpuPaddle.move(0, max(heightDifference, -1.0 * Pong::MAX_CPU_VELOCITY));
+	} else {
+	    cpuPaddle.move(0, min(heightDifference, 1.0 * Pong::MAX_CPU_VELOCITY));
+	}
+
+
+	// check and bounce ball off of walls and paddles
+	deflectBall();
+
+	// move ball according to its velocity
+	ball.setX(ball.getX() + ballVelocity.getX());
+	ball.setY(ball.getY() + ballVelocity.getY());
+
+	// check for ball going out of play
+	if (ball.getLeftX() < 0) { // goes past user
+	    ++cpuScore;
+		// serve ball to user
+		userScoredLast = false;
+		shouldRestartRound = true;
+	} else if (ball.getRightX() > width) { // goes past cpu
+		++userScore;
+		// serve ball to cpu
+		userScoredLast = true;
+		shouldRestartRound = true;
+	}
+}
+
+void Pong::deflectBall() {
+	// power is how extreme of an angle the ball will be deflected
+	// determined based on how far off center of the paddle the person hits it
+	double power = 0;
+	double angle = 0;
+
+	// greatest angle that the ball can be hit at (60 degrees)
+	double MAX_ANGLE = M_PI / 3;
+
+	// if the cpu hits it
+	if (ball.getRightX() > cpuPaddle.getLeftX() && cpuPaddle.getTopY() < ball.getTopY() && cpuPaddle.getBottomY() > ball.getBottomY()) {
+
+		// how far from center of paddle the ball is 
+		power = 2.0 * (cpuPaddle.getCenterY() - ball.getCenterY()) / Pong::paddleHeight;
+
+		// calculate and set angle
+		angle = power * MAX_ANGLE;
+		ballVelocity.setAngle(M_PI + angle);
+
+		// ball goes a little faster after every hit
+		ballVelocity.multiplyMagnitude(MAGNITUDE_MULTIPLIER);
+
+		// if the user hits it
+	} else if (ball.getLeftX() < userPaddle.getRightX() && userPaddle.getTopY() < ball.getBottomY() && userPaddle.getBottomY() > ball.getTopY() ) {
+
+		// how far from center of paddle the ball is 
+		power = 2.0 * (userPaddle.getCenterY() - ball.getCenterY()) / Pong::paddleHeight;
+
+		// calculate and set angle
+		angle = power * MAX_ANGLE;
+		ballVelocity.setAngle(angle);
+
+		// ball goes a little faster after every hit
+		ballVelocity.multiplyMagnitude(MAGNITUDE_MULTIPLIER);
+
+		// if ball hits top or bottom of screen
+	} else if (ball.getBottomY() > height && ballVelocity.getY() > 0) {
+		ballVelocity *= Vec2d({1, -1});
+	} else if (ball.getTopY() < 0 && ballVelocity.getY() < 0) {
+		ballVelocity *= Vec2d({1, -1});
+	}
+}
+
+
+void Pong::startRound() {
+	// don't restart round again
+	shouldRestartRound = false;
+
+	// move ball to center
+	ball.setX(width / 2);
+	ball.setY(height / 2);
+	
+	// serve the ball to whoever didn't last score
+	if (userScoredLast) {
+		ballVelocity.set(Vec2d({4, rand() % 2 + 3}));	
+	} else {
+		ballVelocity.set(Vec2d({-4, rand() % 2 + 3}));
+	}
+	// wait 3 seconds
+	*gameDelay = *lastTick + 3000;
+}
+
+// check to see if anyone's exceeded max points
+bool Pong::isOver() {
+	return userScore >= Pong::WINNING_SCORE || cpuScore >= Pong::WINNING_SCORE;
+}
+
+void Pong::restartGame() {
+	// reset scores
+	userScore = 0;
+	cpuScore = 0;
+	// restart round and serve ball to user
+	shouldRestartRound = true;
+	userScoredLast = false;
+}
+
+
+	
+// ====================
+// drawing functions
+// ====================
+
 void Pong::drawStart() {
     drawString("Welcome to Pong!");
-    button2.draw();
+    startButton.draw();
 }
 
 void Pong::drawGame() {
-
 	userPaddle.draw();
 	cpuPaddle.draw();
 	ball.draw();
@@ -48,164 +183,24 @@ void Pong::drawEnd() {
     }
 
     // Play again button
-    button.draw();
-	}
-
-void Pong::timestep() {
-
-	if (shouldRestartRound) {
-		startRound();
-	}
-
-	int ballX = ball.getX();
-	int ballY = ball.getY();
-
-	deflectBall();
-
-	// move cpu
-
-	double heightDifference = ball.getY() - cpuPaddle.getCenterY();
-
-	if (heightDifference < 0) {
-	    cpuPaddle.move(0, max(heightDifference, -1.0 * Pong::MAX_CPU_VELOCITY));
-	} else {
-	    cpuPaddle.move(0, min(heightDifference, 1.0 * Pong::MAX_CPU_VELOCITY));
-	}
-
-	ball.setX(ballX + ballVelocity.getX());
-	ball.setY(ballY + ballVelocity.getY());
-
-	if (ball.getLeftX() < 0) {
-	    ++cpuScore;
-		userScoredLast = false;
-		shouldRestartRound = true;
-	} else if (ball.getRightX() > width) {
-		++userScore;
-		userScoredLast = true;
-		shouldRestartRound = true;
-	}
+    playAgainButton.draw();
 }
 
-void Pong::deflectBall() {
-	double power = 0;
-	double MAX_ANGLE = M_PI / 3;
-	double angle = 0;
 
-	if (ball.getRightX() > cpuPaddle.getLeftX() && cpuPaddle.getTopY() < ball.getTopY() && cpuPaddle.getBottomY() > ball.getBottomY()) {
-		
-		power = 2.0 * (cpuPaddle.getCenterY() - ball.getCenterY()) / Pong::paddleHeight;
-		angle = power * MAX_ANGLE;
-		ballVelocity.setAngle(M_PI + angle);
-		ballVelocity.multiplyMagnitude(1.05);
-
-	} else if (ball.getLeftX() < userPaddle.getRightX() && userPaddle.getTopY() < ball.getBottomY() && userPaddle.getBottomY() > ball.getTopY() ) {
-
-		power = 2.0 * (userPaddle.getCenterY() - ball.getCenterY()) / Pong::paddleHeight;
-		angle = power * MAX_ANGLE;
-		ballVelocity.setAngle(angle);
-		ballVelocity.multiplyMagnitude(1.05);
-		
-	} else if (ball.getBottomY() > height && ballVelocity.getY() > 0) {
-		ballVelocity *= Vec2d({1, -1});
-	} else if (ball.getTopY() < 0 && ballVelocity.getY() < 0) {
-		ballVelocity *= Vec2d({1, -1});
-	}
-}
-
-// Function to draw strings
-void Pong::drawString(string label) {
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glRasterPos2i(250, 150);
-    for (char &letter : label)  {
-        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
-    }
-    glEnd();
-}
-
-////////// Functions to make Play Again button work ///////////////////////
-void Pong::setButton(const Button &button) {
-    Pong::button = button;
-}
-
-const Button& Pong::getButton() const {
-    return button;
-}
-
-void Pong::buttonHover() {
-    button.hover();
-}
-
-void Pong::buttonRelease() {
-    button.release();
-}
-
-void Pong::buttonPressDown() {
-    button.pressDown();
-}
-
-void Pong::buttonClick() {
-    button.click(setProgramStateStart);
-}
-
-void Pong::setButton2(const Button &button2) {
-    Pong::button = button2;
-}
-
-const Button& Pong::getButton2() const {
-    return button2;
-}
-
-void Pong::buttonHover2() {
-    button2.hover();
-}
-
-void Pong::buttonRelease2() {
-    button2.release();
-}
-
-void Pong::buttonPressDown2() {
-    button2.pressDown();
-}
-
-void Pong::buttonClick2() {
-	button2.click(setProgramStateGame);
-}
-
-void Pong::moveDown() {
-    if(userPaddle.getBottomY() < height) {
-        userPaddle.move(0, +10);
-    }
-}
-
-void Pong::moveUp() {
-    if(userPaddle.getTopY() > 0) {
-        userPaddle.move(0, -10);
-    }
-}
 
 void Pong::displayScore() {
+	// get both scores as strings
     string stringUser = to_string(userScore);
     string stringCpu = to_string(cpuScore);
+	// draw them
     drawScore("User Score: ", "  CPU Score: ", stringUser, stringCpu);
 }
 
-void Pong::startRound() {
-	shouldRestartRound = false;
-	ball.setX(width / 2);
-	ball.setY(height / 2);
-	
-	// serve the ball to whoever didn't last score
-	if (userScoredLast) {
-		ballVelocity.set(Vec2d({4, rand() % 2 + 3}));	
-	} else {
-		ballVelocity.set(Vec2d({-4, rand() % 2 + 3}));
-	}
-	*gameDelay = *lastTick + 3000;
-}
 
 void Pong::drawScore(string message, string message2, string userScore, string cpuScore) {
     glColor3f(1.0f, 0.0f, 0.0f);
     glRasterPos2i(225, 30);
+	// draw each part of message
     for (char &letter : message) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
     }
@@ -218,17 +213,79 @@ void Pong::drawScore(string message, string message2, string userScore, string c
     for (char &letter : cpuScore) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
     }
-
-    glEnd();
 }
 
-bool Pong::isOver() {
-	return userScore >= Pong::WINNING_SCORE || cpuScore >= Pong::WINNING_SCORE;
+// Function to draw strings
+void Pong::drawString(string label) {
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glRasterPos2i(250, 150);
+    for (char &letter : label)  {
+        glutBitmapCharacter(GLUT_BITMAP_9_BY_15, letter);
+    }
 }
 
-void Pong::restartGame() {
-	userScore = 0;
-	cpuScore = 0;
-	shouldRestartRound = true;
-	userScoredLast = false;
+
+
+
+// ==================
+// play again button
+// ==================
+
+void Pong::setPlayAgainButton(const Button &playAgainButton) {
+    Pong::playAgainButton = playAgainButton;
 }
+
+const Button& Pong::getPlayAgainButton() const {
+    return playAgainButton;
+}
+
+void Pong::playAgainButtonHover() {
+    playAgainButton.hover();
+}
+
+void Pong::playAgainButtonRelease() {
+    playAgainButton.release();
+}
+
+void Pong::playAgainButtonPressDown() {
+    playAgainButton.pressDown();
+}
+
+void Pong::playAgainButtonClick() {
+    playAgainButton.click(setProgramStateStart);
+}
+
+
+
+// ==================
+// start again button
+// ==================
+
+void Pong::setStartButton(const Button &startButton) {
+    Pong::startButton = startButton;
+}
+
+const Button& Pong::getStartButton() const {
+    return startButton;
+}
+
+void Pong::startButtonHover() {
+    startButton.hover();
+}
+
+void Pong::startButtonRelease() {
+    startButton.release();
+}
+
+void Pong::startButtonPressDown() {
+    startButton.pressDown();
+}
+
+void Pong::startButtonClick() {
+	startButton.click(setProgramStateGame);
+}
+
+
+
+
+

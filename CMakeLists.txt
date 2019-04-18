@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(Pong1)
+project(pong)
 
 
 
@@ -30,10 +30,10 @@ file(GLOB SOURCE_FILES
   src/*.h
   )
 
-add_executable(graphics ${SOURCE_FILES} src/Quad.h src/Quad.cpp src/Quad.h)
+add_executable(pong ${SOURCE_FILES})
 
 if (WIN32)
-    target_link_libraries (graphics ${OPENGL_LIBRARIES} freeglut)
+  target_link_libraries (pong ${OPENGL_LIBRARIES} freeglut)
 elseif (APPLE OR UNIX)
-    target_link_libraries (graphics ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+  target_link_libraries (pong ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 endif ()

@@ -6,7 +6,7 @@
 #include "shapes.h"
 #include "circle.h"
 #include "pong.h"
-#include "Button.h"
+#include "button.h"
 using namespace std;
 
 GLdouble width, height;
@@ -36,6 +36,8 @@ void init() {
 	width = Pong::width;
 	height = Pong::height;
 	lastTick = 0;
+	// start high so that ball doesn't move until after delay (gets reset to reasonable level by pong.startRound())
+	gameDelay = 10000;
 }
 
 /* Initialize OpenGL Graphics */
@@ -114,16 +116,16 @@ void keySpecialUpFunc(int key, int x, int y) {
 
 // For play again button
 void cursor(int x, int y) {
-    if (pong.getButton().isOverlapping(x, y)) {
-        pong.buttonHover();
+    if (pong.getPlayAgainButton().isOverlapping(x, y)) {
+        pong.playAgainButtonHover();
     } else {
-        pong.buttonRelease();
+        pong.playAgainButtonRelease();
     }
 
-    if (pong.getButton2().isOverlapping(x, y)) {
-        pong.buttonHover2();
+    if (pong.getStartButton().isOverlapping(x, y)) {
+        pong.startButtonHover();
     } else {
-        pong.buttonRelease2();
+        pong.startButtonRelease();
     }
     glutPostRedisplay();
 }
@@ -135,16 +137,16 @@ void mouse(int button, int state, int x, int y) {
 	if (programState == state::end) {
 		if (state == GLUT_DOWN &&
 			button == GLUT_LEFT_BUTTON &&
-			pong.getButton().isOverlapping(x, y)) {
-			pong.buttonPressDown();
+			pong.getPlayAgainButton().isOverlapping(x, y)) {
+			pong.playAgainButtonPressDown();
 		} else {
-			pong.buttonRelease();
+			pong.playAgainButtonRelease();
 		}
 
 		if (state == GLUT_UP &&
 			button == GLUT_LEFT_BUTTON &&
-			pong.getButton().isOverlapping(x, y)) {
-			pong.buttonClick();
+			pong.getPlayAgainButton().isOverlapping(x, y)) {
+			pong.playAgainButtonClick();
 		}
 	}
 
@@ -152,16 +154,16 @@ void mouse(int button, int state, int x, int y) {
 
 		if (state == GLUT_DOWN &&
 			button == GLUT_LEFT_BUTTON &&
-			pong.getButton2().isOverlapping(x, y)) {
-			pong.buttonPressDown2();
+			pong.getStartButton().isOverlapping(x, y)) {
+			pong.startButtonPressDown();
 		} else {
-			pong.buttonRelease2();
+			pong.startButtonRelease();
 		}
 
 		if (state == GLUT_UP &&
 			button == GLUT_LEFT_BUTTON &&
-			pong.getButton2().isOverlapping(x, y)) {
-			pong.buttonClick2();
+			pong.getStartButton().isOverlapping(x, y)) {
+			pong.startButtonClick();
 		}
 	}
 	glutPostRedisplay();

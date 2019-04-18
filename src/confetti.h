@@ -1,7 +1,7 @@
 #ifndef CONFETTI_H
 #define CONFETTI_H
 
-#include "Quad.h"
+#include "quad.h"
 #include "shapes.h"
 #include <vector>
 #include <memory>

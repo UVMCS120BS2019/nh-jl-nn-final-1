@@ -7,7 +7,7 @@
 
 #include <string>
 #include <functional>
-#include "Quad.h"
+#include "quad.h"
 #include "graphics.h"
 
 class Button { 
@@ -37,6 +37,7 @@ public:
     /* Execute whatever the Button is supposed to do */
     virtual void click(std::function<void()> callback);
 
+	// move the button's position
 	void move(int x, int y);
 };
 

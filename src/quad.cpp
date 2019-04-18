@@ -2,9 +2,9 @@
 // Created by jacel on 4/13/2019.
 //
 
-#include "Quad.h"
+#include "quad.h"
 
-#include "Button.h"
+#include "button.h"
 #include "graphics.h"
 using namespace std;
 
@@ -97,8 +97,6 @@ void Quad::resize(unsigned int width, unsigned int height) {
 }
 
 void Quad::draw() const {
-    // TODO: Implement
-    // Don't forget to set the color to the fill field
     glColor3f(fill.red, fill.green, fill.blue);
     glBegin(GL_QUADS);
     glVertex2i(getLeftX(), getTopY());

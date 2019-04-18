@@ -1,6 +1,6 @@
 #include "confetti.h"
 #include "pong.h"
-#include "Quad.h"
+#include "quad.h"
 #include "memory"
 #include "shapes.h"
 
