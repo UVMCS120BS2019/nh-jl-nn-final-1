@@ -17,7 +17,7 @@ Vec2d  operator +(const Vec2d& lhs, const Vec2d& rhs) {
 	double y = lhs.getY() + rhs.getY();
 	return Vec2d({x, y});
 }
-	
+
 Vec2d  operator *(const Vec2d& lhs, const Vec2d& rhs) {
 	double x = lhs.getX() * rhs.getX();
 	double y = lhs.getY() * rhs.getY();

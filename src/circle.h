@@ -16,12 +16,14 @@ private:
 	int radius;
 		
 public:
+	// constructors
 	Circle();
 	Circle(int radius);
 	Circle(int x, int y, int radius);
 
+	// getters
 	int getRadius() const;
-	
+
 	int getLeftX() const;
 	int getRightX() const;
 	int getTopY() const;
@@ -33,6 +35,7 @@ public:
 	void setRadius(int radius);
 
 	virtual void draw() const override;
+
 	// for overriding << operator
 	std::ostream& doprint(std::ostream& out) const override;
 };

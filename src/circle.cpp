@@ -36,6 +36,7 @@ void Circle::draw() const {
     glColor3f(fill.red, fill.green, fill.blue);
     glBegin(GL_TRIANGLE_FAN);
     glVertex2f(x, y); // center of circle
+	// draw fan of triangles to approximate circle
     for(i = 0; i <= triangleAmount; i++) {
         glVertex2f(x + (radius * cos(i *  twicePi / triangleAmount)),
 				   y + (radius * sin(i * twicePi / triangleAmount)));

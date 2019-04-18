@@ -1,3 +1,15 @@
+/*
+ * vec2d.h
+ *
+ * class to store a 2-dimensional vector. Used for storing and
+ * manipulating ball velocity in the pong game.
+ *
+ * Written by Nicholas Hanoian on 04/17/2019.
+ */
+
+
+
+
 #ifndef VEC2D_H
 #define VEC2D_H
 

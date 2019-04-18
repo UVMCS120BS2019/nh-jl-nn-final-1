@@ -1,6 +1,13 @@
-//
-// Created by Lisa Dion on 10/3/18.
-//
+/*
+ * shapes.cpp
+ *
+ * Parent class for circle and quad
+ *
+ * Written by Nicholas Hanoian on 04/12/2019.
+ */
+
+
+
 
 #include "shapes.h"
 
